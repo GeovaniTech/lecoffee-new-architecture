@@ -9,12 +9,50 @@
 	</parent>
 	<artifactId>server-lecoffee-web</artifactId>
 	<packaging>war</packaging>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>jakarta.platform</groupId>
 			<artifactId>jakarta.jakartaee-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>13.0.0</version>
+			<classifier>jakarta</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ocpsoft.rewrite</groupId>
+			<artifactId>rewrite-servlet</artifactId>
+			<version>10.0.0.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.ocpsoft.rewrite</groupId>
+			<artifactId>rewrite-config-prettyfaces</artifactId>
+			<version>10.0.0.Final</version>
+		</dependency>
+
+		<!-- INIT DEVPREE DEPENDENCIES -->
+
+		<dependency>
+			<groupId>br.com.devpree</groupId>
+			<artifactId>server-lecoffee-business</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>br.com.devpree</groupId>
+			<artifactId>server-lecoffee-model</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>br.com.devpree</groupId>
+			<artifactId>server-lecoffee-utils</artifactId>
+		</dependency>
+
+		<!-- END DEVPREE DEPENDENCIES -->
 	</dependencies>
 </project>

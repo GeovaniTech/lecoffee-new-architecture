@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pretty-config
+	xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<url-mapping id="login">
+		<pattern value="/login" />
+		<view-id value="/htdocs/home/login.xhtml" />
+	</url-mapping>
+</pretty-config>
