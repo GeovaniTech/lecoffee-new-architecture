@@ -7,4 +7,9 @@
 		<pattern value="/login" />
 		<view-id value="/htdocs/home/login.xhtml" />
 	</url-mapping>
+	
+	<url-mapping id="register">
+		<pattern value="/register" />
+		<view-id value="/htdocs/home/register.xhtml" />
+	</url-mapping>
 </pretty-config>
