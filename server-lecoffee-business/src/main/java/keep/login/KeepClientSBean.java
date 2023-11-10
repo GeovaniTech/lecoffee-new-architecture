@@ -122,6 +122,8 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 			
 			this.change(to);
 			
+			this.getSession().setAttribute("client", to);
+			
 			Cookie userCookie = new Cookie("userSession", encrypedEmail);
 			userCookie.setMaxAge(60*60*24*30);
 			userCookie.setPath("/lecoffee");

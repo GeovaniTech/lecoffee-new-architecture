@@ -36,18 +36,15 @@ public class MBLogin extends BaseMBean {
 	}
 	
 	public void showFinishedRegisterMessage() {
-		String message;
-		
 		if(StringUtil.isNotNull(this.getMessageParam())) {
 			if(this.getMessageParam().equals("finished")) {
-				message = MessageUtil.getMessageFromProperties("registration_completed_successfully");
-			} else {
-				message = MessageUtil.getMessageFromProperties("password_change_successfully");
+				MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("registration_completed_successfully"), FacesMessage.SEVERITY_INFO);
+			} else if(this.getMessageParam().equals("newpassword")){
+				MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("password_change_successfully"), FacesMessage.SEVERITY_INFO);
+			} else if(this.getMessageParam().equals("userblocked")) {
+				MessageUtil.sendMessage( MessageUtil.getMessageFromProperties("user_blocked"), FacesMessage.SEVERITY_ERROR);
 			}
-			
-			MessageUtil.sendMessage(message, FacesMessage.SEVERITY_INFO);
 		}
-		
 	}
 	
 	public void sendEmailForgotPassoword() {
