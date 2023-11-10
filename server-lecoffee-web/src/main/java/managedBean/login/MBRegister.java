@@ -1,9 +1,12 @@
 package managedBean.login;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import abstracts.BaseMBean;
 import jakarta.ejb.EJB;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
-import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import keep.login.IKeepClientSBean;
 import utils.EmailUtil;
@@ -13,7 +16,7 @@ import utils.MessageUtil;
 import utils.StringUtil;
 
 @Named("MBRegister")
-@ViewScoped
+@SessionScoped
 public class MBRegister extends BaseMBean {
 
 	private static final long serialVersionUID = 4108901291531109382L;
@@ -22,9 +25,14 @@ public class MBRegister extends BaseMBean {
 	private String password;
 	private String repeatedPassword;
 	private String token;
+	private List<String> blacklistTokens;
 	
 	@EJB
 	private IKeepClientSBean clientSBean;
+	
+	public MBRegister() {
+		this.setBlacklistTokens(new ArrayList<String>());
+	}
 	
 	public void register() {
 		if(verifyFields()) {
@@ -37,11 +45,15 @@ public class MBRegister extends BaseMBean {
 		if(StringUtil.isNotNull(this.getToken())) {
 			String encryptedEmail = JWTUtil.getValueFromToken("registerToken", this.getToken());
 			
-			if(StringUtil.isNotNull(encryptedEmail)) {
+			if(StringUtil.isNotNull(encryptedEmail) && !this.getBlacklistTokens().contains(this.getToken())) {
 				this.getClientSBean().finishRegister(EncryptionUtil.decryptNormalText(encryptedEmail));
-			} else {
-				MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("invalid_or_expired_token"), FacesMessage.SEVERITY_ERROR);
+				this.getBlacklistTokens().add(this.getToken());
+				this.resetFields();
+				
+				return;
 			}
+			
+			MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("invalid_or_expired_token"), FacesMessage.SEVERITY_ERROR);
 		}
 	}
 	
@@ -85,6 +97,13 @@ public class MBRegister extends BaseMBean {
 		return true;
 	}
 	
+	public void resetFields() {
+		this.setEmail(null);
+		this.setPassword(null);
+		this.setRepeatedPassword(null);
+		this.setToken(null);
+	}
+	
 	// Getters and Setters
 	public String getEmail() {
 		return email;
@@ -124,6 +143,14 @@ public class MBRegister extends BaseMBean {
 
 	public void setClientSBean(IKeepClientSBean clientSBean) {
 		this.clientSBean = clientSBean;
+	}
+
+	public List<String> getBlacklistTokens() {
+		return blacklistTokens;
+	}
+
+	public void setBlacklistTokens(List<String> blacklistTokens) {
+		this.blacklistTokens = blacklistTokens;
 	}
 	
 }

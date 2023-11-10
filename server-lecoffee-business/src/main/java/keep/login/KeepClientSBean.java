@@ -90,7 +90,8 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 		
 		sql.append(" SELECT C FROM ")
 			.append(Client.class.getSimpleName()).append(" C ")
-			.append(" WHERE C.email = :pEmail AND C.password = :pPassword ");
+			.append(" WHERE C.email = :pEmail AND C.password = :pPassword ")
+			.append(" AND C.creationDate IS NOT NUll ");
 		
 		Query query = this.getEntityManager().createQuery(sql.toString(), Client.class);
 		query.setParameter("pEmail", email);
@@ -186,20 +187,27 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 		
 		sql.append(" SELECT C FROM ")
 			.append(Client.class.getSimpleName()).append(" C ")
-			.append(" WHERE C.email  = :pEmail ");
+			.append(" WHERE C.email  = :pEmail ")
+			.append(" AND C.creationDate IS NULL ");
 		
-		Client client = (Client) this.getEntityManager()
-					.createQuery(sql.toString())
-					.setParameter("pEmail", email)
-					.getSingleResult();
-				
-		client.setCreationDate(new Date());
-		client.setCreationUser("Lecoffee System");
-		client.setSecurityLevel("client");
-
-		this.getEntityManager().merge(client);
+		Query query = this.getEntityManager().createQuery(sql.toString());
+		query.setParameter("pEmail", email);
 		
-		RedirectURL.redirectTo("/lecoffee/login/finished");
+		if(query.getResultList().size() == 1) {
+			Client client = (Client) query.getSingleResult();
+			
+			client.setCreationDate(new Date());
+			client.setCreationUser("Lecoffee System");
+			client.setSecurityLevel("client");
+			
+			this.getEntityManager().merge(client); 
+			
+			RedirectURL.redirectTo("/lecoffee/login/finished");
+			
+			return;
+		}
+		
+		MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("user_already_completed_registration"), FacesMessage.SEVERITY_ERROR);
 	}
 
 }
