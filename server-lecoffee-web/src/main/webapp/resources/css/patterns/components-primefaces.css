@@ -99,7 +99,7 @@
 
 .ui-dialog-titlebar {
 	padding: 10px !important;
-	color: var(--text-mouse) !important;
+	color: var(--text) !important;
 	background-color: var(--background-general) !important;
 }
 

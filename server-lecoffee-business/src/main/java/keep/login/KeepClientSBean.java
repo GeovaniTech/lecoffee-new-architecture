@@ -71,7 +71,8 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 		
 		sql.append(" SELECT C ");
 		sql.append(" FROM ").append(Client.class.getSimpleName()).append(" C ");
-		sql.append(" WHERE C.email = :email");
+		sql.append(" WHERE C.email = :email ");
+		sql.append(" AND C.creationDate IS NOT NUll ");
 		
 		try {
 			Client client = this.getEntityManager().createQuery(sql.toString(), Client.class)

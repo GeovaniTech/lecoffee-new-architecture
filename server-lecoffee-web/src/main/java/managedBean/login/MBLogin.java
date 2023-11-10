@@ -7,6 +7,8 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import keep.login.IKeepClientSBean;
 import utils.EmailUtil;
+import utils.EncryptionUtil;
+import utils.JWTUtil;
 import utils.MessageUtil;
 import utils.StringUtil;
 
@@ -26,7 +28,11 @@ public class MBLogin extends BaseMBean {
 	public void logar() {
 		if(EmailUtil.validateEmail(this.getEmail())) {
 			this.getClientSBean().logar(this.getEmail(), this.getPassword());
+			
+			return;
 		}
+		
+		MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("invalid_email"), FacesMessage.SEVERITY_ERROR);
 	}
 	
 	public void showFinishedRegisterMessage() {
@@ -42,6 +48,38 @@ public class MBLogin extends BaseMBean {
 			MessageUtil.sendMessage(message, FacesMessage.SEVERITY_INFO);
 		}
 		
+	}
+	
+	public void sendEmailForgotPassoword() {
+		String title = "Lecoffee - Solicitação de Troca de Senha";
+		
+		StringBuilder description = new StringBuilder();
+		
+		description.append("<h2>Troca de Senha de acesso a LeCoffee<h2/>");
+		description.append("<p>Olá,</p>");
+		description.append("<p>Para trocar sua senha de acesso, entre no link abaixo e insira sua nova senha.</p>");
+		description.append("<p><a href=http://localhost:8080/lecoffee/newpassword/");
+		description.append(JWTUtil.generateToken("newPassword", EncryptionUtil.encryptNormalText(this.getEmail()))).append(">Troca de Senha</a><p/>");
+		description.append("<p>Caso você não tenha solicitado a troca de senha na LeCoffee ");
+		description.append("ou acredite que este email tenha sido enviado por engano, por favor, desconsidere esta mensagem.</p>");
+		description.append("Atenciosamente, <br>");
+		description.append("A equipe LeCoffee <br>");
+		
+		EmailUtil.sendMail(this.getEmail(), title, description.toString(), MessageUtil.getMessageFromProperties("email_new_password"));
+	}
+	
+	public void validateSendNewPassword() {
+		if(!EmailUtil.validateEmail(this.getEmail())) {
+			MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("invalid_email"), FacesMessage.SEVERITY_ERROR);
+			return;
+		}
+		
+		if(!this.getClientSBean().verifyClient(this.getEmail())) {
+			MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("user_not_found"), FacesMessage.SEVERITY_ERROR);
+			return;
+		}
+		
+		this.sendEmailForgotPassoword();
 	}
 	
 	// Getters and Setters

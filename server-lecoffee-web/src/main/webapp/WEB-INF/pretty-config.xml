@@ -22,4 +22,9 @@
 		<pattern value="/register/#{finished}" />
 		<view-id value="/htdocs/home/register.xhtml?finished=#{finished}" />
 	</url-mapping>
+	
+	<url-mapping id="newPassword">
+		<pattern value="/newpassword/#{token}" />
+		<view-id value="/htdocs/home/new_password.xhtml?token=#{token}" />
+	</url-mapping>
 </pretty-config>
