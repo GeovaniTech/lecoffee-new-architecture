@@ -178,8 +178,20 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 
 	@Override
 	public void setNewPassword(String email, String password) {
-		// TODO Auto-generated method stub
+		StringBuilder sql = new StringBuilder();
 		
+		sql.append(" UPDATE ")
+			.append(Client.class.getSimpleName()).append(" C ")
+			.append(" SET C.password = :pPassword ")
+			.append(" WHERE  C.email =  :pEmail ");
+		
+		Query query = this.getEntityManager().createQuery(sql.toString());
+		query.setParameter("pPassword", EncryptionUtil.encryptTextSHA(password));
+		query.setParameter("pEmail", email);
+		
+		query.executeUpdate();
+		
+		RedirectURL.redirectTo("/lecoffee/login/newpassword");
 	}
 
 	@Override

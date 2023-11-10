@@ -38,7 +38,11 @@ public class MBNewPassword extends BaseMBean {
 		if(!this.isTokenValid()) {
 			this.setValidToken(false);
 			MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("invalid_or_expired_token"), FacesMessage.SEVERITY_ERROR);
+			
+			return;
 		}
+		
+		this.setValidToken(true);
 	}
 	
 	public boolean isTokenValid() {
@@ -57,7 +61,11 @@ public class MBNewPassword extends BaseMBean {
 	}
 	
 	public void saveChanges() {
-		
+		if(this.getPassword().equals(this.getRepeatedPassword())) {
+			this.getClientSBean().setNewPassword(this.getEmail(), this.getPassword());
+		} else {
+			MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("password_are_not_the_same"), FacesMessage.SEVERITY_WARN);
+		}
 	}
 	
 	// Getters and Setters
