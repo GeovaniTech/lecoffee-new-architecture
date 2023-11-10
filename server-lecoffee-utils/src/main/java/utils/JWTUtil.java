@@ -33,7 +33,7 @@ public class JWTUtil {
 		return null;
 	}
 	
-	public String getValueFromToken(String issuer, String token) {
+	public static String getValueFromToken(String issuer, String token) {
 		try {
 			JWTVerifier verifier = JWT.require(algorithm)
 					.withIssuer(issuer)

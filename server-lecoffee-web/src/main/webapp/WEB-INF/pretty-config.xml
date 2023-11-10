@@ -8,8 +8,18 @@
 		<view-id value="/htdocs/home/login.xhtml" />
 	</url-mapping>
 	
+	<url-mapping id="loginMessage">
+		<pattern value="/login/#{messageParam}" />
+		<view-id value="/htdocs/home/login.xhtml?messageParam=#{messageParam}" />
+	</url-mapping>
+	
 	<url-mapping id="register">
 		<pattern value="/register" />
 		<view-id value="/htdocs/home/register.xhtml" />
+	</url-mapping>
+	
+	<url-mapping id="registerToken">
+		<pattern value="/register/#{finished}" />
+		<view-id value="/htdocs/home/register.xhtml?finished=#{finished}" />
 	</url-mapping>
 </pretty-config>

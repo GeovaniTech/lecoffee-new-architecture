@@ -39,13 +39,13 @@
 			</p:ajaxStatus>
 			
 			<f:metadata>
-				<f:viewParam name="registerFinished" value="#{MBLogin.registerFinished}"></f:viewParam>
+				<f:viewParam name="messageParam" value="#{MBLogin.messageParam}"></f:viewParam>
 			</f:metadata>
 
 			<h:form>
 				<p:remoteCommand 
 					autoRun="true"
-					action="#{MBLogin.sendRegisterFinishedMessage()}"
+					action="#{MBLogin.showFinishedRegisterMessage()}"
 					update="formLogin:messages" />
 			</h:form>
 		

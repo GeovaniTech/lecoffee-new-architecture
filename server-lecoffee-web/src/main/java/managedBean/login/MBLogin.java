@@ -2,9 +2,13 @@ package managedBean.login;
 
 import abstracts.BaseMBean;
 import jakarta.ejb.EJB;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import keep.login.IKeepClientSBean;
+import utils.EmailUtil;
+import utils.MessageUtil;
+import utils.StringUtil;
 
 @Named("MBLogin")
 @ViewScoped
@@ -14,16 +18,29 @@ public class MBLogin extends BaseMBean {
 	
 	private String email;
 	private String password;
-	private String registerFinished;
+	private String messageParam;
 	
 	@EJB
 	private IKeepClientSBean clientSBean;
 
 	public void logar() {
-		
+		if(EmailUtil.validateEmail(this.getEmail())) {
+			this.getClientSBean().logar(this.getEmail(), this.getPassword());
+		}
 	}
 	
-	public void sendRegisterFinishedMessage() {
+	public void showFinishedRegisterMessage() {
+		String message;
+		
+		if(StringUtil.isNotNull(this.getMessageParam())) {
+			if(this.getMessageParam().equals("finished")) {
+				message = MessageUtil.getMessageFromProperties("registration_completed_successfully");
+			} else {
+				message = MessageUtil.getMessageFromProperties("password_change_successfully");
+			}
+			
+			MessageUtil.sendMessage(message, FacesMessage.SEVERITY_INFO);
+		}
 		
 	}
 	
@@ -52,12 +69,12 @@ public class MBLogin extends BaseMBean {
 		this.password = password;
 	}
 
-	public String getRegisterFinished() {
-		return registerFinished;
+	public String getMessageParam() {
+		return messageParam;
 	}
 
-	public void setRegisterFinished(String registerFinished) {
-		this.registerFinished = registerFinished;
+	public void setMessageParam(String messageParam) {
+		this.messageParam = messageParam;
 	}
 
 }

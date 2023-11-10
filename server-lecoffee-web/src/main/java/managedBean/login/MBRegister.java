@@ -2,16 +2,18 @@ package managedBean.login;
 
 import abstracts.BaseMBean;
 import jakarta.ejb.EJB;
-import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
+import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import keep.login.IKeepClientSBean;
 import utils.EmailUtil;
+import utils.EncryptionUtil;
 import utils.JWTUtil;
 import utils.MessageUtil;
+import utils.StringUtil;
 
 @Named("MBRegister")
-@SessionScoped
+@ViewScoped
 public class MBRegister extends BaseMBean {
 
 	private static final long serialVersionUID = 4108901291531109382L;
@@ -26,11 +28,24 @@ public class MBRegister extends BaseMBean {
 	
 	public void register() {
 		if(verifyFields()) {
-			sendConfirmationTokenEmail();
+			this.getClientSBean().save(this.getEmail(), this.getPassword());
+			sendConfirmationTokenEmail(this.getEmail());
 		}
 	}
 	
-	public void sendConfirmationTokenEmail() {
+	public void finishRegister() {
+		if(StringUtil.isNotNull(this.getToken())) {
+			String encryptedEmail = JWTUtil.getValueFromToken("registerToken", this.getToken());
+			
+			if(StringUtil.isNotNull(encryptedEmail)) {
+				this.getClientSBean().finishRegister(EncryptionUtil.decryptNormalText(encryptedEmail));
+			} else {
+				MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("invalid_or_expired_token"), FacesMessage.SEVERITY_ERROR);
+			}
+		}
+	}
+	
+	public void sendConfirmationTokenEmail(String email) {
 		String title = "LeCoffee - Confirmação de email";
 		
 		StringBuilder description = new StringBuilder();
@@ -40,8 +55,8 @@ public class MBRegister extends BaseMBean {
 		description.append("<p>Agradecemos por se cadastrar na LeCoffee! ");
 		description.append("Estamos felizes em tê-lo(a) como nosso(a) cliente.</p>");
 		description.append("Para finalizar o seu cadastro, por favor, confirme a sua conta clicando no link abaixo:</p>");
-		description.append("<p><a href=https://www.devpree.com.br/lecoffee/pages/register.xhtml?token=");
-		description.append(JWTUtil.generateToken("registerToken", title) + ">");
+		description.append("<p><a href=http://localhost:8080/lecoffee/register/");
+		description.append(JWTUtil.generateToken("registerToken", EncryptionUtil.encryptNormalText(email)) + ">");
 		description.append("Finalizar Cadastro</a></p>");
 		description.append("<p>Caso você não tenha criado uma conta na LeCoffee ");
 		description.append("ou acredite que este email tenha sido enviado por engano, por favor, desconsidere esta mensagem.</p>");

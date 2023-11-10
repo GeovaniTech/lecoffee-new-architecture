@@ -7,11 +7,16 @@
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 
 		<jta-data-source>java:/lecoffee_db</jta-data-source>
-
+	
+		<class>model.Address</class>
+		<class>model.Cart</class>
+		<class>model.Category</class>
+		<class>model.Client</class>
+		<class>model.Item</class>
+		<class>model.Product</class>
+		
 		<properties>
-			<property name="jakarta.persistence.schema-generation.database.action" value="update" />
-			
-			<property name="hibernate.archive.autodetection" value="class, hbm" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 		</properties>
 	</persistence-unit>
