@@ -2,7 +2,6 @@ package filters;
 
 import java.io.IOException;
 
-import jakarta.ejb.EJB;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
@@ -13,7 +12,6 @@ import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import keep.login.IKeepClientSBean;
 import to.TOClient;
 
 /**

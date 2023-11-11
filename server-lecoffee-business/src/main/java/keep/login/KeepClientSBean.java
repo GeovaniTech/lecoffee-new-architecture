@@ -73,16 +73,16 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 		sql.append(" FROM ").append(Client.class.getSimpleName()).append(" C ");
 		sql.append(" WHERE C.email = :email ");
 		sql.append(" AND C.creationDate IS NOT NUll ");
+		sql.append(" AND C.blocked = false ");
 		
-		try {
-			Client client = this.getEntityManager().createQuery(sql.toString(), Client.class)
-					.setParameter("email", email)
-					.getSingleResult();
-			
-			return client != null;
-		} catch (Exception e) {
-			return false;
+		Query query = this.getEntityManager().createQuery(sql.toString());
+		query.setParameter("email", email);
+		
+		if(query.getResultList().size() == 1) {
+			return true;
 		}
+		
+		return false;
 	}
 
 	@Override

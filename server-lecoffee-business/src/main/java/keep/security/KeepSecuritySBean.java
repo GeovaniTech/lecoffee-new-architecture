@@ -39,5 +39,4 @@ public class KeepSecuritySBean implements IKeepSecuritySBean, IKeepSecurityRemot
 		this.entityManager = entityManager;
 	}
 	
-	
 }
