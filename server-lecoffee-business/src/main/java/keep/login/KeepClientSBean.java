@@ -8,8 +8,10 @@ import jakarta.ejb.Stateless;
 import jakarta.ejb.TransactionManagement;
 import jakarta.ejb.TransactionManagementType;
 import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.persistence.Query;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import model.Client;
 import to.TOClient;
 import to.TOFilterLovClient;
@@ -124,16 +126,18 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 			
 			this.getSession().setAttribute("client", to);
 			
-			Cookie userCookie = new Cookie("userSession", encrypedEmail);
+			HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
+			
+			Cookie userCookie = new Cookie("userSession", EncryptionUtil.encryptNormalText(client.getEmail()));
 			userCookie.setMaxAge(60*60*24*30);
 			userCookie.setPath("/lecoffee");
 			
-			this.getResponse().addCookie(userCookie);
+			response.addCookie(userCookie);
 			
 			if(client.getSecurityLevel().equals("client")) {
 				RedirectURL.redirectTo("/lecoffee/home");
 			} else {
-				RedirectURL.redirectTo("/lecoffee/admin/login");
+				RedirectURL.redirectTo("/lecoffee/admin/pedidos");
 			}	
 			
 			return true;

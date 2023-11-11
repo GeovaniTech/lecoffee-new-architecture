@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+	
+	<h:body>
+		<h:outputStylesheet library="css" name="/admin/template/admin-header.css" />
+		<h:outputStylesheet library="css" name="/configs/configs.css" />
+		
+		<div class="top-header" id="top-header">
+			<div class="left-items horizontal-center">
+				<div class="btn-menu" onclick="openMenu();">
+					<span class="material-symbols-outlined">
+						menu
+					</span>
+				</div>
+				
+				<div class="name-page">
+					<ui:insert name="name_page" />
+				</div>
+			</div>
+			
+			<div class="right-items horizontal-center">
+				<p:commandLink id="my_account" style="text-decoration: none;">
+					<div class="horizontal-center">
+						<span class="material-symbols-outlined google-icons">
+							account_circle
+						</span>
+					</div>			
+				</p:commandLink>
+			
+				<div class="horizontal-center">
+					<span class="material-symbols-outlined google-icons">
+						notifications
+					</span>
+				</div>
+				
+				<div class="horizontal-center">
+					<p:commandLink
+						id="options"
+						style="text-decoration: none;"
+						styleClass="horizontal-center">
+						
+						<span class="material-symbols-outlined google-icons">
+							settings
+						</span>
+					</p:commandLink>
+				</div>
+			</div>
+		</div>
+		
+		<div class="header" id="header">
+			<div class="logo">
+				<h1><a href="/lecoffee/home"><span>Le</span>Coffee</a></h1>
+			</div>
+			
+			<p:scrollPanel
+				mode="native" 
+				style="max-height: calc(100vh - 60px); width: 100%;">
+				
+				<div class="menu" id="menu">
+					<p:commandLink 
+						id="menu-pedidos"
+						action="#{MBAppConfigs.redirectTo('/lecoffee/admin/pedidos')}">
+						
+						<span class="material-symbols-outlined google-icons">
+							bakery_dining
+						</span>
+						
+						#{label.orders}
+					</p:commandLink>
+					
+					<p:commandLink
+						id="menu-produtos"
+						action="#{MBAppConfigs.redirectTo('/lecoffee/admin/produtos')}">
+						
+						<span class="material-symbols-outlined google-icons">
+							shopping_cart
+						</span>
+						
+						#{label.products}					
+					</p:commandLink>
+			
+					<p:commandLink 
+						id="payments"
+						action="#{MBAppConfigs.redirectTo('/lecoffee/admin/payments')}">
+						
+						<span class="material-symbols-outlined google-icons">
+							credit_card
+						</span>
+						
+						#{label.payment}s
+					</p:commandLink>
+					
+					<p:commandLink 
+						id="menu-ganhos"
+						action="#{MBAppConfigs.redirectTo('/lecoffee/admin/earnings')}">
+						
+						<span class="material-symbols-outlined google-icons">
+							currency_bitcoin
+						</span>
+						
+						#{label.earnings}
+					</p:commandLink>
+					
+					<p:commandLink 
+						id="menu-clientes"
+						action="#{MBAppConfigs.redirectTo('/lecoffee/admin/users')}">
+						
+						<span class="material-symbols-outlined google-icons">
+							group
+						</span>
+						
+						#{label.users}
+					</p:commandLink>
+
+					<p:commandLink
+						action="#{MBAppConfigs.redirectTo('/lecoffee/home')}">
+						
+						<span class="material-symbols-outlined google-icons"> 
+							web 
+						</span>
+						
+						#{label.landing_page}
+					</p:commandLink>
+				</div>
+			</p:scrollPanel>
+		</div>
+		
+		<ui:include src="overlayOptions.xhtml" />
+		<ui:include src="overlayMyAccount.xhtml" />
+		<script src="/lecoffee/resources/js/menu.js"/>	
+	</h:body>
+</html>
