@@ -3,6 +3,8 @@
 	xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
+	<!-- INIT LOGIN -->
+
 	<url-mapping id="login">
 		<pattern value="/login" />
 		<view-id value="/htdocs/home/login.xhtml" />
@@ -27,4 +29,13 @@
 		<pattern value="/newpassword/#{token}" />
 		<view-id value="/htdocs/home/new_password.xhtml?token=#{token}" />
 	</url-mapping>
+	
+	<!-- END LOGIN -->
+	
+	<!-- ADMIN - CLIENTS -->
+	<url-mapping>
+		<pattern value="/admin/clients" />
+		<view-id value="/htdocs/admin/clients/clients.xhtml" />
+	</url-mapping>
+	
 </pretty-config>

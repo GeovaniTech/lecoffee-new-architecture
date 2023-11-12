@@ -17,7 +17,7 @@ import jakarta.inject.Named;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import keep.login.IKeepClientSBean;
+import keep.client.IKeepClientSBean;
 import model.AppConfigs;
 import to.TOClient;
 import utils.CookieUtil;
@@ -40,11 +40,6 @@ public class MBAppConfigs extends BaseMBean {
 	private IKeepClientSBean clientSBean;
 
 	public MBAppConfigs() {
-		
-	}
-	
-	@PostConstruct
-	public void init() {
 		//Attributes
 		this.setAppConfigs(new AppConfigs());
 		this.setLocaleList(new ArrayList<Locale>());
@@ -56,8 +51,11 @@ public class MBAppConfigs extends BaseMBean {
 		this.getAppConfigs().setDarkMode(false);
 		
 		//Getting User preferences
-		this.getConfigsFromCookies();
-		
+		this.getConfigsFromCookies();	
+	}
+	
+	@PostConstruct
+	public void init() {		
 		redirectUserFromCookie();
 	}
 	
@@ -93,13 +91,13 @@ public class MBAppConfigs extends BaseMBean {
 				this.setClientLogged(client);
 			
 				if(this.getClientLogged().getSecurityLevel().equals("admin")) {
-					RedirectURL.redirectTo("/lecoffee/admin/pedidos");
+					RedirectURL.redirectTo("/lecoffee/admin/clients");
 				} else {
 					RedirectURL.redirectTo("/lecoffee/home");
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				//removeUserFromCookie();
+				removeUserFromCookie();
 				RedirectURL.redirectTo("/lecoffee/home");
 			}
 		}

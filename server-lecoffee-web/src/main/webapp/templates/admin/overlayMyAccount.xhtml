@@ -55,7 +55,7 @@
 					<p:commandLink
 						value="#{label.administrative_panel}"
 						action="#{MBAppConfigs.redirectTo('/lecoffee/admin/pedidos')}"
-						rendered="#{MBAppConfigs.clientLogged.nivel eq 'admin' ? true :  false}"
+						rendered="#{MBAppConfigs.clientLogged.securityLevel eq 'admin' ? true :  false}"
 						styleClass="buttonMyAccount" />
 					
 					<p:commandLink 
@@ -101,7 +101,7 @@
 					<p:commandLink
 						value="#{label.administrative_panel}"
 						action="#{MBAppConfigs.redirectTo('/lecoffee/admin/pedidos')}"
-						rendered="#{MBAppConfigs.clientLogged.nivel eq 'admin' ? true :  false}"
+						rendered="#{MBAppConfigs.clientLogged.securityLevel eq 'admin' ? true :  false}"
 						styleClass="buttonMyAccount" />
 					
 					<p:commandLink 

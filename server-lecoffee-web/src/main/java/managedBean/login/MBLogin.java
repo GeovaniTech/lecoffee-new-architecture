@@ -5,7 +5,7 @@ import jakarta.ejb.EJB;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
-import keep.login.IKeepClientSBean;
+import keep.client.IKeepClientSBean;
 import utils.EmailUtil;
 import utils.EncryptionUtil;
 import utils.JWTUtil;

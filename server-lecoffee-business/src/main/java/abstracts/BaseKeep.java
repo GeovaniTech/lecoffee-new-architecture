@@ -9,7 +9,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import utils.BaseSession;
 
-public class BaseKeep<model, to> extends BaseSession {	
+public abstract class BaseKeep<model, to> extends BaseSession {	
 	@PersistenceContext(unitName = "lecoffee_datasource")
 	private EntityManager entityManager;
 	private ModelMapper converter = new ModelMapper();
