@@ -137,7 +137,7 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 			if(client.getSecurityLevel().equals("client")) {
 				RedirectURL.redirectTo("/lecoffee/home");
 			} else {
-				RedirectURL.redirectTo("/lecoffee/admin/pedidos");
+				RedirectURL.redirectTo("/lecoffee/admin/clients");
 			}	
 			
 			return true;

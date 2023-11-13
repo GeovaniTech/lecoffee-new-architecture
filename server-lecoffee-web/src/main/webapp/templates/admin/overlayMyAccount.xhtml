@@ -84,7 +84,7 @@
 					<p:commandLink
 						value="#{label.do_login}"
 						action="#{MBAppConfigs.redirectTo('/lecoffee/login')}"
-						rendered="#{MBAppConfigs.userLogged ? false : true}" />
+						rendered="#{MBAppConfigs.isUserLogged() ? false : true}" />
 				</div>
 			</div>
 			
@@ -101,7 +101,7 @@
 					<p:commandLink
 						value="#{label.administrative_panel}"
 						action="#{MBAppConfigs.redirectTo('/lecoffee/admin/pedidos')}"
-						rendered="#{MBAppConfigs.clientLogged.securityLevel eq 'admin' ? true :  false}"
+						rendered="#{MBAppConfigs.clientLogged.securityLevel eq 'admin' ? true : false}"
 						styleClass="buttonMyAccount" />
 					
 					<p:commandLink 

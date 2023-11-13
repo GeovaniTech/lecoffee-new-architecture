@@ -34,7 +34,6 @@ public class MBAppConfigs extends BaseMBean {
 	
 	private AppConfigs appConfigs;
 	private List<Locale> localeList;
-	private TOClient clientLogged;
 	
 	@EJB
 	private IKeepClientSBean clientSBean;
@@ -83,12 +82,10 @@ public class MBAppConfigs extends BaseMBean {
 					return;
 				}
 				
-				getSession().setAttribute("client", client);
+				this.getSession().setAttribute("client", client);
 				
 				client.setLastLogin(new Date());
 				this.getClientSBean().change(client);
-				
-				this.setClientLogged(client);
 			
 				if(this.getClientLogged().getSecurityLevel().equals("admin")) {
 					RedirectURL.redirectTo("/lecoffee/admin/clients");
@@ -178,10 +175,7 @@ public class MBAppConfigs extends BaseMBean {
 		this.localeList = localeList;
 	}
 	public TOClient getClientLogged() {
-		return clientLogged;
-	}
-	public void setClientLogged(TOClient clientLogged) {
-		this.clientLogged = clientLogged;
+		return this.getClient();
 	}
 	public IKeepClientSBean getClientSBean() {
 		return clientSBean;

@@ -25,8 +25,8 @@ public class BaseSession {
 	}
 	
 	protected void finishSession() {
-		getSession().setAttribute("client", null);
-		getSession().invalidate();
+		this.getSession().setAttribute("client", null);
+		this.getSession().invalidate();
 	}
 	
 	//Setters and Getters
