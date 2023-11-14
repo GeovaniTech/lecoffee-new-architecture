@@ -8,7 +8,7 @@ import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 
-import abstracts.BaseMBean;
+import abstracts.AbstractMBean;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
@@ -19,7 +19,7 @@ import to.client.TOFilterClient;
 
 @Named("MBClient")
 @ViewScoped
-public class MBClient extends BaseMBean {
+public class MBClient extends AbstractMBean {
 
 	private static final long serialVersionUID = 9099066833372360110L;
 	
@@ -46,8 +46,6 @@ public class MBClient extends BaseMBean {
 			public List<TOClient> load(int first, int pageSize, Map<String, SortMeta> sortBy,
 					Map<String, FilterMeta> filterBy) {
 				
-				System.out.println("arasdfasdfasd");
-				
 				getFilter().setFirstResult(first);
 				getFilter().setMaxResults(pageSize);
 				
@@ -56,15 +54,11 @@ public class MBClient extends BaseMBean {
 				return getClientSBean().list(getFilter());
 			}
 
-			
-			
 			@Override
 			public String getRowKey(TOClient object) {
 				return String.valueOf(object.getId());
 			}
-
-
-
+			
 			@Override
 			public int count(Map<String, FilterMeta> filterBy) {
 				return getClientSBean().countClient(getFilter());

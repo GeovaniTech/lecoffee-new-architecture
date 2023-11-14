@@ -1,6 +1,6 @@
 package managedBean.login;
 
-import abstracts.BaseMBean;
+import abstracts.AbstractMBean;
 import jakarta.ejb.EJB;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.view.ViewScoped;
@@ -14,7 +14,7 @@ import utils.StringUtil;
 
 @Named("MBLogin")
 @ViewScoped
-public class MBLogin extends BaseMBean {
+public class MBLogin extends AbstractMBean {
 	
 	private static final long serialVersionUID = -6951441926941734297L;
 	

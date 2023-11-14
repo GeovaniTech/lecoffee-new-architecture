@@ -3,7 +3,7 @@ package managedBean.login;
 import java.util.ArrayList;
 import java.util.List;
 
-import abstracts.BaseMBean;
+import abstracts.AbstractMBean;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
@@ -17,7 +17,7 @@ import utils.StringUtil;
 
 @Named("MBRegister")
 @SessionScoped
-public class MBRegister extends BaseMBean {
+public class MBRegister extends AbstractMBean {
 
 	private static final long serialVersionUID = 4108901291531109382L;
 	

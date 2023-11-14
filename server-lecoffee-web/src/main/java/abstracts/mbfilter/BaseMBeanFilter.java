@@ -7,9 +7,9 @@ import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortMeta;
 
-import abstracts.BaseMBean;
+import abstracts.AbstractMBean;
 
-public abstract class BaseMBeanFilter<DataModel, Filter> extends BaseMBean {
+public abstract class BaseMBeanFilter<DataModel, Filter> extends AbstractMBean {
 
 	private static final long serialVersionUID = 4515288235703540053L;
 	

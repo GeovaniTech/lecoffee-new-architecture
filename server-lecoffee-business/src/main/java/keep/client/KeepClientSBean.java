@@ -179,13 +179,11 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 		sql.append(" SELECT C FROM ")
 			.append(Client.class.getSimpleName()).append(" C ");
 		
-		// ADD AND dateCreation IS NOT NULL
+		sql.append(this.getWhereListClients());
 		
 		Query query = this.getEntityManager().createQuery(sql.toString(), Client.class);
 		query.setFirstResult(filter.getFirstResult());
 		query.setMaxResults(filter.getMaxResults());
-		
-		System.out.println(query.getResultList().size());
 		
 		return this.convertModelResults(query.getResultList());
 	}
@@ -193,12 +191,24 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 	@Override
 	public int countClient(TOFilterClient filter) {
 		StringBuilder sql = new StringBuilder();
-		sql.append(" SELECT C FROM ")
+		sql.append(" SELECT COUNT(C.id) FROM ")
 			.append(Client.class.getSimpleName()).append(" C ");
 		
-		Query query = this.getEntityManager().createQuery(sql.toString(), Client.class);
+		sql.append(this.getWhereListClients());
 		
-		return query.getResultList().size();
+		Query query = this.getEntityManager().createQuery(sql.toString(), Number.class);
+		
+		Number value = (Number) query.getSingleResult();
+		
+		return value.intValue();
+	}
+	
+	public String getWhereListClients() {
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append(" WHERE C.creationDate IS NOT NULL ");
+		
+		return sql.toString();
 	}
 
 	@Override

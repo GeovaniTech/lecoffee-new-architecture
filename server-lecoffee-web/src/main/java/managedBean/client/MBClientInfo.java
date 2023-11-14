@@ -1,13 +1,13 @@
 package managedBean.client;
 
-import abstracts.BaseMBean;
+import abstracts.AbstractMBean;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import to.client.TOClient;
 
 @Named("MBClientInfo")
 @ViewScoped
-public class MBClientInfo extends BaseMBean {
+public class MBClientInfo extends AbstractMBean {
 	
 	private static final long serialVersionUID = 9183706213942034831L;
 	

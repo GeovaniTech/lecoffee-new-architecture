@@ -3,7 +3,7 @@ package managedBean.login;
 import java.util.ArrayList;
 import java.util.List;
 
-import abstracts.BaseMBean;
+import abstracts.AbstractMBean;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
@@ -16,7 +16,7 @@ import utils.StringUtil;
 
 @Named("MBNewPassword")
 @SessionScoped
-public class MBNewPassword extends BaseMBean {
+public class MBNewPassword extends AbstractMBean {
 
 	private static final long serialVersionUID = 838212801483440031L;
 	

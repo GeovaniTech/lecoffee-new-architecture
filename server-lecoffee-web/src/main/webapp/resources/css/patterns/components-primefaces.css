@@ -270,6 +270,19 @@ body .ui-datepicker .ui-datepicker-calendar td>a, body .ui-datepicker .ui-datepi
 	border-color: var(--bottom-row-table) !important;
 }
 
+.ui-datatable .ui-paginator-page {
+	background-color: var(--green) !important;
+	color: #FFFFFF !important;
+}
+
+.ui-datatable .ui-paginator-top {
+	padding: 10px 0px !important;
+	background-color: var(--background-general) !important;
+	border-bottom: 1px solid var(--bottom-row-table) !important;
+	display: flex;
+	align-items: flex-start;
+}
+
 /* #################### OVERLAYPANEl #################### */
 .ui-overlaypanel {
 	background-color: var(--background-general) !important;

@@ -30,9 +30,9 @@
 					var="toClient" 
 					value="#{MBClient.results}"
 					rowKey="#{toClient.id}"
-					rows="5"
+					rows="20"
                     paginator="true" 
-                    paginatorPosition="both"
+                    paginatorPosition="top"
                     lazy="true">
                     
 					<p:column headerText="#{label.email}">
@@ -53,6 +53,26 @@
 					
 					<p:column headerText="#{label.last_login}">
 						<h:outputText value="#{toClient.lastLogin}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="#{label.creation_user}">
+						<h:outputText value="#{toClient.creationUser}" />
+					</p:column>
+					
+					<p:column headerText="#{label.creation_date}">
+						<h:outputText value="#{toClient.creationDate}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="#{label.inactivation_user}">
+						<h:outputText value="#{toClient.inactivationUser}" />
+					</p:column>
+					
+					<p:column headerText="#{label.inactivation_date}">
+						<h:outputText value="#{toClient.inactivationDate}">
 							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
 						</h:outputText>
 					</p:column>

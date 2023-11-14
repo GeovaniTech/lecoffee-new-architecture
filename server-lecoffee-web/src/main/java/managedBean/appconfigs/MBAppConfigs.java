@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import abstracts.BaseMBean;
+import abstracts.AbstractMBean;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
@@ -28,7 +28,7 @@ import utils.StringUtil;
 
 @Named("MBAppConfigs")
 @SessionScoped
-public class MBAppConfigs extends BaseMBean {
+public class MBAppConfigs extends AbstractMBean {
 
 	private static final long serialVersionUID = 8432905268667991640L;
 	
