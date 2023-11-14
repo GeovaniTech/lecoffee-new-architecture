@@ -16,7 +16,6 @@ public class Client extends AbstractObject {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private String name;
 	private String email;
 	private String password;
 	private String securityLevel;
@@ -44,14 +43,6 @@ public class Client extends AbstractObject {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getEmail() {

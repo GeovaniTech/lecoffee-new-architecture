@@ -1,10 +1,12 @@
 package utils;
 
+import jakarta.el.ELContext;
+import jakarta.el.ExpressionFactory;
 import jakarta.faces.context.FacesContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import to.TOClient;
+import to.client.TOClient;
 
 public class BaseSession {
 	protected HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -27,6 +29,16 @@ public class BaseSession {
 	protected void finishSession() {
 		this.getSession().setAttribute("client", null);
 		this.getSession().invalidate();
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T> T getSBean(String beanName) {
+		ELContext elcontext = FacesContext.getCurrentInstance().getELContext();
+		ExpressionFactory expressionFactory = FacesContext.getCurrentInstance().getApplication().getExpressionFactory();
+		
+		T bean = (T) expressionFactory.createValueExpression(elcontext, "#{" + beanName +"}", Object.class).getValue(elcontext);
+		
+		return bean;		
 	}
 	
 	//Setters and Getters

@@ -1,4 +1,4 @@
-package to;
+package to.client;
 
 import java.util.Date;
 
@@ -9,12 +9,12 @@ public class TOClient extends AbstractTOObject {
 	private static final long serialVersionUID = -7590357042811071338L;
 	
 	private int id;
-	private String name;
+	private int rowNumber;
 	private String email;
+	private String phoneNumber;
 	private String securityLevel;
 	private Date lastLogin;
 	private boolean blocked;
-	private String phoneNumber;
 	private boolean changePassword;
 	
 	// Getters and Setters
@@ -23,12 +23,6 @@ public class TOClient extends AbstractTOObject {
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
 	}
 	public String getEmail() {
 		return email;
@@ -65,6 +59,12 @@ public class TOClient extends AbstractTOObject {
 	}
 	public void setChangePassword(boolean changePassword) {
 		this.changePassword = changePassword;
+	}
+	public int getRowNumber() {
+		return this.getId();
+	}
+	public void setRowNumber(int rowNumber) {
+		this.rowNumber = rowNumber;
 	}
 	
 }

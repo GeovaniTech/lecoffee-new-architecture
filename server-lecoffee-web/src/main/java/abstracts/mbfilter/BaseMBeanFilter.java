@@ -14,7 +14,8 @@ public abstract class BaseMBeanFilter<DataModel, Filter> extends BaseMBean {
 	private static final long serialVersionUID = 4515288235703540053L;
 	
 	private LazyDataModel<DataModel> results;
-
+	private Filter filter;
+	
 	public void searchResults() {
 		this.setResults(new LazyDataModel<DataModel>() {
 
@@ -43,6 +44,14 @@ public abstract class BaseMBeanFilter<DataModel, Filter> extends BaseMBean {
 	
 	public void setResults(LazyDataModel<DataModel> results) {
 		this.results = results;
+	}
+
+	public Filter getFilter() {
+		return filter;
+	}
+
+	public void setFilter(Filter filter) {
+		this.filter = filter;
 	}
 	
 }

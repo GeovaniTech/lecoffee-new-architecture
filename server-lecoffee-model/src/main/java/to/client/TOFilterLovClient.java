@@ -1,6 +1,8 @@
-package to;
+package to.client;
 
 import java.io.Serializable;
+
+import to.TOInputFilter;
 
 public class TOFilterLovClient implements Serializable {
 	private static final long serialVersionUID = -8095673852501015866L;

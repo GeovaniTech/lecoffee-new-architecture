@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import to.TOClient;
+import to.client.TOClient;
 
 /**
  * Servlet Filter implementation class SecurityLevelFilter

@@ -13,8 +13,9 @@ import jakarta.persistence.Query;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Client;
-import to.TOClient;
-import to.TOFilterLovClient;
+import to.client.TOClient;
+import to.client.TOFilterClient;
+import to.client.TOFilterLovClient;
 import utils.EncryptionUtil;
 import utils.JWTUtil;
 import utils.MessageUtil;
@@ -166,14 +167,38 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 
 	@Override
 	public TOClient findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Client client = this.getEntityManager().find(Client.class, id);
+		
+		return this.convertToDTO(client);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<TOClient> list() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<TOClient> list(TOFilterClient filter) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(" SELECT C FROM ")
+			.append(Client.class.getSimpleName()).append(" C ");
+		
+		// ADD AND dateCreation IS NOT NULL
+		
+		Query query = this.getEntityManager().createQuery(sql.toString(), Client.class);
+		query.setFirstResult(filter.getFirstResult());
+		query.setMaxResults(filter.getMaxResults());
+		
+		System.out.println(query.getResultList().size());
+		
+		return this.convertModelResults(query.getResultList());
+	}
+	
+	@Override
+	public int countClient(TOFilterClient filter) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(" SELECT C FROM ")
+			.append(Client.class.getSimpleName()).append(" C ");
+		
+		Query query = this.getEntityManager().createQuery(sql.toString(), Client.class);
+		
+		return query.getResultList().size();
 	}
 
 	@Override

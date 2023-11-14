@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:components="http://java.sun.com/jsf/composite/components"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+<ui:composition>
+	<components:dialog 
+		id="dialogClientInfo" 
+		widgetVar="dialogclientModelInfoVW"
+		header="#{label.client}" 
+		formId="infosClient">
+
+		<div jsf:id="generalInformation">
+			<h3>#{label.general_information}</h3>
+			<div class="horizontal-left-center">
+				<div class="search-group">
+					<p:outputLabel value="#{label.email}" for="email" />
+					<p:inputText 
+						id="email"
+						placeholder="#{label.email}"
+						value="#{MBclient.clientModel.email}"
+						required="true"
+						requiredMessage="#{label.email_is_required}" />
+				</div>
+				
+				<div class="search-group">
+					<p:outputLabel value="#{label.phone_number}" for="phoneNumber" />
+					<p:inputMask 
+						id="phoneNumber"
+						value="#{MBclient.clientModel.phone_number}"
+						placeholder="#{label.phone_number}"
+						mask="(99) 9 9999-9999" />
+				</div>
+			</div>	
+		</div>
+		
+		<div jsf:id="security">
+			<h3>#{label.security}</h3>
+			
+			<div class="horizontal-left-bottom">
+				<div class="search-group">
+					<p:outputLabel value="#{label.level}" for="level" />
+					
+					<p:selectOneRadio id="level">					
+						<f:selectItem 
+							itemLabel="#{label.client}"
+							itemValue="client" />
+						
+						<f:selectItem 
+							itemLabel="#{label.admin}"
+							itemValue="admin" />
+					</p:selectOneRadio>
+				</div>
+				
+				<div class="search-group">
+					<div class="horizontal-left">
+						<p:selectBooleanCheckbox 
+							id="blocked"
+							value="#{MBclient.clientModel.blocked}"
+							styleClass="mg-r-5" />
+							
+						<p:outputLabel value="#{label.blocked}" for="blocked"/>	
+					</div>
+				</div>
+				
+				<div class="search-group">
+					<div class="horizontal-left">
+						<p:selectBooleanCheckbox 
+							id="change_password"
+							value="#{MBclient.clientModel.changePassword}"
+							styleClass="mg-r-5" />
+						
+						<p:outputLabel value="#{label.change_password_next_login}" for="change_password"/>		
+					</div>			
+				</div>
+			</div>
+		</div>
+
+		<p:toolbar>
+			<f:facet name="left">
+				<p:commandButton 
+					value="#{label.save}" 
+					action="#{MBclient.save()}"
+					icon="pi pi-save" 
+					update="@form" />
+			</f:facet>
+		</p:toolbar>
+	</components:dialog>
+</ui:composition>
+</html>
