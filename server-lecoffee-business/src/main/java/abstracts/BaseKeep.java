@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 
+import jakarta.enterprise.lang.model.types.Type;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import utils.BaseSession;
@@ -23,10 +24,8 @@ public abstract class BaseKeep<model, to> extends BaseSession {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<to> convertModelResults(List<model> results) {
-
-		
-		return (List<to>) results.stream().map(model -> this.getConverter().map(model, modelClass))
+	public List<to> convertModelResults(List<model> results) {		
+		return (List<to>) results.stream().map(model -> this.getConverter().map(model, toClass))
 				.collect(Collectors.toList());
 	}
 

@@ -33,7 +33,9 @@
 					rows="20"
                     paginator="true" 
                     paginatorPosition="top"
-                    lazy="true">
+                    lazy="true"
+                    selection="#{MBClient.client}"
+                    selectionMode="single">
                     
 					<p:column headerText="#{label.email}">
 						<h:outputText value="#{toClient.email}" />
@@ -57,7 +59,7 @@
 						</h:outputText>
 					</p:column>
 					
-					<p:column headerText="#{label.creation_user}">
+					<p:column headerTe250pxxt="#{label.creation_user}">
 						<h:outputText value="#{toClient.creationUser}" />
 					</p:column>
 					

@@ -9,7 +9,6 @@ public class TOClient extends AbstractTOObject {
 	private static final long serialVersionUID = -7590357042811071338L;
 	
 	private int id;
-	private int rowNumber;
 	private String email;
 	private String phoneNumber;
 	private String securityLevel;
@@ -59,12 +58,6 @@ public class TOClient extends AbstractTOObject {
 	}
 	public void setChangePassword(boolean changePassword) {
 		this.changePassword = changePassword;
-	}
-	public int getRowNumber() {
-		return this.getId();
-	}
-	public void setRowNumber(int rowNumber) {
-		this.rowNumber = rowNumber;
 	}
 	
 }

@@ -24,9 +24,9 @@ public class MBClient extends AbstractMBean {
 	private static final long serialVersionUID = 9099066833372360110L;
 	
 	private List<TOClient> clients;
-	private TOClient clientModel;
 	private LazyDataModel<TOClient> results;
 	private TOFilterClient filter;
+	private TOClient client;
 	
 	@EJB
 	private IKeepClientSBean clientSBean;
@@ -41,6 +41,8 @@ public class MBClient extends AbstractMBean {
 		this.setResults(new LazyDataModel<TOClient>() {
 			
 			private static final long serialVersionUID = 2153336984091642643L;
+			
+			private List<TOClient> clients;
 
 			@Override
 			public List<TOClient> load(int first, int pageSize, Map<String, SortMeta> sortBy,
@@ -53,7 +55,7 @@ public class MBClient extends AbstractMBean {
 				
 				return getClientSBean().list(getFilter());
 			}
-
+			
 			@Override
 			public String getRowKey(TOClient object) {
 				return String.valueOf(object.getId());
@@ -62,12 +64,12 @@ public class MBClient extends AbstractMBean {
 			@Override
 			public int count(Map<String, FilterMeta> filterBy) {
 				return getClientSBean().countClient(getFilter());
-			} 
+			}
 		});
 	}
 	
 	public void initNewClient() {
-		this.setClientModel(new TOClient());
+		this.setClient(new TOClient());
 	}
 	
 	public void save() {
@@ -75,9 +77,9 @@ public class MBClient extends AbstractMBean {
 	}
 	
     public void onRowSelect(SelectEvent<TOClient> event) {
-    	this.setClientModel(this.getClientSBean().findById(event.getObject().getId()));
+    	this.setClient(this.getClientSBean().findById(event.getObject().getId()));
     	MBClientInfo mbClientInfo = (MBClientInfo) this.getSBean("MBClientInfo");
-    	mbClientInfo.setClient(this.getClientModel());
+    	mbClientInfo.setClient(this.getClient());
     }
 		
 	// Getters and Setters
@@ -97,14 +99,6 @@ public class MBClient extends AbstractMBean {
 		this.clientSBean = clientSBean;
 	}
 
-	public TOClient getClientModel() {
-		return clientModel;
-	}
-
-	public void setClientModel(TOClient clientModel) {
-		this.clientModel = clientModel;
-	}
-
 	public LazyDataModel<TOClient> getResults() {
 		return results;
 	}
@@ -119,5 +113,13 @@ public class MBClient extends AbstractMBean {
 
 	public void setFilter(TOFilterClient filter) {
 		this.filter = filter;
+	}
+
+	public TOClient getClient() {
+		return client;
+	}
+
+	public void setClient(TOClient client) {
+		this.client = client;
 	}
 }

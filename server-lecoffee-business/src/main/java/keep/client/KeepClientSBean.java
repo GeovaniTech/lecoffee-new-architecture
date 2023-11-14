@@ -184,7 +184,7 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 		Query query = this.getEntityManager().createQuery(sql.toString(), Client.class);
 		query.setFirstResult(filter.getFirstResult());
 		query.setMaxResults(filter.getMaxResults());
-		
+				
 		return this.convertModelResults(query.getResultList());
 	}
 	
@@ -201,14 +201,6 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 		Number value = (Number) query.getSingleResult();
 		
 		return value.intValue();
-	}
-	
-	public String getWhereListClients() {
-		StringBuilder sql = new StringBuilder();
-		
-		sql.append(" WHERE C.creationDate IS NOT NULL ");
-		
-		return sql.toString();
 	}
 
 	@Override
@@ -262,6 +254,14 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 		}
 		
 		MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("user_already_completed_registration"), FacesMessage.SEVERITY_ERROR);
+	}
+	
+	public String getWhereListClients() {
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append(" WHERE C.creationDate IS NOT NULL ");
+		
+		return sql.toString();
 	}
 
 }
