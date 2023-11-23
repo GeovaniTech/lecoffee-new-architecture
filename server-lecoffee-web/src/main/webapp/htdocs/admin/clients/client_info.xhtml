@@ -13,85 +13,25 @@
 <ui:composition>
 	<components:dialog 
 		id="dialogClientInfo" 
-		widgetVar="dialogclientModelInfoVW"
-		header="#{label.client}" 
-		formId="infosClient">
-
-		<div jsf:id="generalInformation">
-			<h3>#{label.general_information}</h3>
-			<div class="horizontal-left-center">
-				<div class="search-group">
-					<p:outputLabel value="#{label.email}" for="email" />
-					<p:inputText 
-						id="email"
-						placeholder="#{label.email}"
-						value="#{MBclient.clientModel.email}"
-						required="true"
-						requiredMessage="#{label.email_is_required}" />
-				</div>
-				
-				<div class="search-group">
-					<p:outputLabel value="#{label.phone_number}" for="phoneNumber" />
-					<p:inputMask 
-						id="phoneNumber"
-						value="#{MBclient.clientModel.phone_number}"
-						placeholder="#{label.phone_number}"
-						mask="(99) 9 9999-9999" />
-				</div>
-			</div>	
-		</div>
+		widgetVar="dialogClientModelInfoVW"
+		header="#{label.client}">
 		
-		<div jsf:id="security">
-			<h3>#{label.security}</h3>
+		<p:tabView
+			id="tabview_client"
+			dynamic="true">
 			
-			<div class="horizontal-left-bottom">
-				<div class="search-group">
-					<p:outputLabel value="#{label.level}" for="level" />
-					
-					<p:selectOneRadio id="level">					
-						<f:selectItem 
-							itemLabel="#{label.client}"
-							itemValue="client" />
-						
-						<f:selectItem 
-							itemLabel="#{label.admin}"
-							itemValue="admin" />
-					</p:selectOneRadio>
-				</div>
+			<p:tab id="tab_general" title="#{label.general_information}">
+				<ui:include src="/htdocs/admin/clients/tab_general_informations.xhtml" />
+			</p:tab>
+		
+			<p:tab 
+				id="tab_adresses" 
+				title="#{label.adresses}"
+				disabled="#{MBClientAddress.client == null}">
 				
-				<div class="search-group">
-					<div class="horizontal-left">
-						<p:selectBooleanCheckbox 
-							id="blocked"
-							value="#{MBclient.clientModel.blocked}"
-							styleClass="mg-r-5" />
-							
-						<p:outputLabel value="#{label.blocked}" for="blocked"/>	
-					</div>
-				</div>
-				
-				<div class="search-group">
-					<div class="horizontal-left">
-						<p:selectBooleanCheckbox 
-							id="change_password"
-							value="#{MBclient.clientModel.changePassword}"
-							styleClass="mg-r-5" />
-						
-						<p:outputLabel value="#{label.change_password_next_login}" for="change_password"/>		
-					</div>			
-				</div>
-			</div>
-		</div>
-
-		<p:toolbar>
-			<f:facet name="left">
-				<p:commandButton 
-					value="#{label.save}" 
-					action="#{MBclient.save()}"
-					icon="pi pi-save" 
-					update="@form" />
-			</f:facet>
-		</p:toolbar>
+				<ui:include src="/htdocs/admin/clients/tab_adresses.xhtml" />
+			</p:tab>
+		</p:tabView>
 	</components:dialog>
 </ui:composition>
 </html>

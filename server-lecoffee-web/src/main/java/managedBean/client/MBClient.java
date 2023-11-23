@@ -3,6 +3,7 @@ package managedBean.client;
 import java.util.List;
 import java.util.Map;
 
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
@@ -34,7 +35,13 @@ public class MBClient extends AbstractMBean {
 	@PostConstruct
 	public void init() {
 		this.setFilter(new TOFilterClient());
+		this.setClient(new TOClient());
 		this.searchClients();
+	}
+	
+	public void initNewClient() {
+		this.getClientInfoMBean().setClient(new TOClient());
+		this.getClientAddressMBean().setClient(null);
 	}
 	
 	public void searchClients() {
@@ -53,9 +60,22 @@ public class MBClient extends AbstractMBean {
 				
 				setRowCount(getClientSBean().countClient(getFilter()));
 				
-				return getClientSBean().list(getFilter());
+				clients = getClientSBean().list(getFilter());
+				
+				return clients;
 			}
 			
+			@Override
+			public TOClient getRowData(String rowKey) {
+				for(TOClient client : clients) {
+					if(String.valueOf(client.getId()).equals(rowKey)) {
+						return client;
+					}
+				}
+				
+				return null;
+			}
+
 			@Override
 			public String getRowKey(TOClient object) {
 				return String.valueOf(object.getId());
@@ -67,21 +87,24 @@ public class MBClient extends AbstractMBean {
 			}
 		});
 	}
-	
-	public void initNewClient() {
-		this.setClient(new TOClient());
-	}
-	
-	public void save() {
-		// TODO
-	}
-	
+
     public void onRowSelect(SelectEvent<TOClient> event) {
     	this.setClient(this.getClientSBean().findById(event.getObject().getId()));
-    	MBClientInfo mbClientInfo = (MBClientInfo) this.getSBean("MBClientInfo");
-    	mbClientInfo.setClient(this.getClient());
+    	
+    	this.getClientInfoMBean().setClient(this.getClient());
+    	this.getClientAddressMBean().setClient(this.getClient());
+    	
+    	PrimeFaces.current().ajax().update("dialogClientInfo:tabview_client:infosClient");
+    	PrimeFaces.current().ajax().update("dialogClientInfo:tabview_client:adressesClient");
+    }
+    
+    public MBClientInfo getClientInfoMBean() {
+    	return (MBClientInfo) this.getMBean("MBClientInfo");
     }
 		
+    public MBClientAddress getClientAddressMBean() {
+    	return (MBClientAddress) this.getMBean("MBClientAddress");
+    }
 	// Getters and Setters
 	public List<TOClient> getClients() {
 		return clients;

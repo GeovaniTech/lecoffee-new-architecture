@@ -103,6 +103,10 @@
 	margin: 10px 5px; 
 }
 
+.wrap {
+	flex-wrap: wrap;
+}
+
 /* #################### MARGINS #################### */
 
 .mg-r-5 {

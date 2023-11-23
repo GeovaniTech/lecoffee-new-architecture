@@ -99,6 +99,7 @@
 
 .ui-dialog-titlebar {
 	padding: 10px !important;
+	padding-bottom: 0px !important;
 	color: var(--text) !important;
 	background-color: var(--background-general) !important;
 }
@@ -244,7 +245,7 @@ body .ui-datepicker .ui-datepicker-calendar td>a, body .ui-datepicker .ui-datepi
 
 .ui-datatable thead th {
 	background-color: var(--background-general) !important;
-	color: var(--text-mouse) !important;	
+	color: var(--text) !important;	
 	border: 0px !important;
 	width: 275px;
 }
@@ -260,7 +261,7 @@ body .ui-datepicker .ui-datepicker-calendar td>a, body .ui-datepicker .ui-datepi
 
 .ui-datatable tbody tr {
 	background-color: var(--second-color-widget) !important;
-	color: var(--text-mouse) !important;	
+	color: var(--text) !important;	
 	border-color: var(--bottom-row-table) !important;
 }
 
@@ -270,7 +271,7 @@ body .ui-datepicker .ui-datepicker-calendar td>a, body .ui-datepicker .ui-datepi
 	border-color: var(--bottom-row-table) !important;
 }
 
-.ui-datatable .ui-paginator-page {
+.ui-datatable .ui-paginator-page.ui-state-active	 {
 	background-color: var(--green) !important;
 	color: #FFFFFF !important;
 }

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:components="http://java.sun.com/jsf/composite/components"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+<ui:composition>
+	<h:form id="adressesClient">
+     	<p:messages 
+       		id="messages" 
+       		autoUpdate="true" 
+       		style="width: 100%;"
+       		showIcon="false"
+       		showDetail="false" />
+		
+		<div jsf:id="address_fields" class="horizontal-left-center">
+			<div class="search-group">
+				<p:outputLabel value="#{label.cep}" for="cep" />
+				<div class="horizontal-left">
+					<p:inputMask
+						id="cep"
+						value="#{MBClientAddress.address.cep}"
+						placeholder="#{label.cep}"
+						mask="99999-999"
+						style="width: 150px;"
+						styleClass="mg-r-5"
+						required="true"
+						requiredMessage="#{label.cep_required}" />
+					
+					<p:commandButton 
+						icon="pi pi-search"
+						action="#{MBClientAddress.getCEPInformations()}"
+						process="@this, cep"
+						update="address_fields, messages"
+						styleClass="mg-r-5"
+						style="height: 39px; width: 42px;"/>
+				</div>		
+			</div>
+			
+			<div class="search-group">
+				<p:outputLabel value="#{label.neighborhood}" for="neighborhood" />
+				<p:inputText 
+					id="neighborhood"
+					value="#{MBClientAddress.address.neighborhood}"
+					placeholder="#{label.neighborhood}"
+					disabled="true"
+					required="true" />					
+			</div>
+			
+			<div class="search-group">
+				<p:outputLabel value="#{label.street}" for="street" />
+				<p:inputText 
+					id="street"
+					value="#{MBClientAddress.address.street}" 
+					placeholder="#{label.street}"
+					disabled="true"
+					required="true" />
+			</div>
+		</div>
+		
+		<div class="horizontal-left-center wrap">
+			<div class="search-group">
+				<p:outputLabel value="#{label.complement_word}" for="complement" />
+				<p:inputText 
+					id="complement"
+					value="#{MBClientAddress.address.complement}"
+					placeholder="#{label.complement}" />
+			</div>
+			
+			<div class="search-group">
+				<p:outputLabel value="#{label.house_number}" for="house_number" />
+				<p:inputNumber
+					id="house_number" 
+					value="#{MBClientAddress.address.house_number}"
+					placeholder="#{label.house_number}"
+					style="width: 70px;"
+					required="true"
+					requiredMessage="#{label.house_number_is_required}" />
+			</div>
+		</div>
+		
+		<p:toolbar class="mg-b-10">
+			<f:facet name="left">
+				<p:commandButton 	
+					icon="pi pi-save"
+					value="#{label.add}"
+					action="#{MBClientAddress.addAddress}"
+					update="messages, @form"
+					process="@form"
+					styleClass="mg-r-5"
+					rendered="#{!MBClientAddress.editing}" />
+				
+				<p:commandButton 	
+					icon="pi pi-times"
+					value="#{label.cancel}"
+					action="#{MBClientAddress.clearFields}"
+					update="messages, @form"
+					styleClass="mg-r-5"
+					rendered="#{MBClientAddress.editing}" />
+					
+				<p:commandButton 	
+					icon="pi pi-pencil"
+					value="#{label.change}"
+					action="#{MBClientAddress.changeAddress}"
+					update="messages, @form"
+					styleClass="mg-r-5 disableStyle"
+					disabled="#{!MBClientAddress.editing}" />
+					
+				<p:commandButton 	
+					icon="pi pi-trash"
+					value="#{label.remove}"
+					action="#{MBClientAddress.removeAddress}"
+					update="messages, @form"
+					process="@this"
+					immediate="true"
+					styleClass="mg-r-5 deleteStyle"
+					disabled="#{!MBClientAddress.editing}" />
+			</f:facet>
+		</p:toolbar>
+		
+		<p:dataTable 
+			id="tableAdresses"
+			var="address"
+			value="#{MBClientAddress.client.adresses}"
+			style="max-width: 700px !important;"
+			selection="#{MBClientAddress.addressSelected}"
+			selectionMode="single"
+			rowKey="#{address.id}">
+			
+            <p:ajax 
+            	event="rowSelect" 
+            	listener="#{MBClientAddress.onRowSelect}"
+				update="@form" />
+			
+			<p:column headerText="Cep">
+				<h:outputText value="#{address.cep}" />
+			</p:column>
+			
+			<p:column headerText="#{label.street}">
+				<h:outputText value="#{address.street}" />
+			</p:column>
+			
+			<p:column headerText="#{label.complement}">
+				<h:outputText value="#{address.complement}" />
+			</p:column>
+			
+			<p:column headerText="#{label.house_number}">
+				<h:outputText value="#{address.house_number}" />
+			</p:column>
+			
+			<p:column headerText="#{label.neighborhood}">
+				<h:outputText value="#{address.neighborhood}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</ui:composition>
+</html>

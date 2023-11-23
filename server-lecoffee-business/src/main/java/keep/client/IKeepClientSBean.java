@@ -16,6 +16,8 @@ public interface IKeepClientSBean {
 	public int countClient(TOFilterClient filter);
 	public boolean verifyClient(String email);
 	public boolean logar(String email, String password);
+	public boolean existsClientByEmail(String email);
+	public boolean existsClientByEmail(String email, int clientId);
 	public TOClient findByEmail(String email);
 	public TOClient findById(int id);
 	public List<TOClient> list(TOFilterClient filter);

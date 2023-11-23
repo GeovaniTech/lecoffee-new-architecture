@@ -1,8 +1,11 @@
 package to.client;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import abstracts.AbstractTOObject;
+import to.address.TOAddress;
 
 public class TOClient extends AbstractTOObject {
 
@@ -15,6 +18,12 @@ public class TOClient extends AbstractTOObject {
 	private Date lastLogin;
 	private boolean blocked;
 	private boolean changePassword;
+	private List<TOAddress> adresses;
+	
+	public TOClient() {
+		this.setSecurityLevel("client");
+		this.setAdresses(new ArrayList<TOAddress>());
+	}
 	
 	// Getters and Setters
 	public int getId() {
@@ -58,6 +67,12 @@ public class TOClient extends AbstractTOObject {
 	}
 	public void setChangePassword(boolean changePassword) {
 		this.changePassword = changePassword;
+	}
+	public List<TOAddress> getAdresses() {
+		return adresses;
+	}
+	public void setAdresses(List<TOAddress> adresses) {
+		this.adresses = adresses;
 	}
 	
 }

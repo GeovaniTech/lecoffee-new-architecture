@@ -5,12 +5,10 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 
-import jakarta.enterprise.lang.model.types.Type;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import utils.BaseSession;
 
-public abstract class BaseKeep<model, to> extends BaseSession {	
+public abstract class AbstractKeep<model, to> extends AbstractSession {	
 	@PersistenceContext(unitName = "lecoffee_datasource")
 	private EntityManager entityManager;
 	private ModelMapper converter = new ModelMapper();
@@ -18,14 +16,14 @@ public abstract class BaseKeep<model, to> extends BaseSession {
 	private Class<?> modelClass;
 	private Class<?> toClass;
 	
-	public BaseKeep(Class<model> modelClass, Class<to> toClass) {
+	public AbstractKeep(Class<model> modelClass, Class<to> toClass) {
 		this.setModelClass(modelClass);
 		this.setToClass(toClass);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<to> convertModelResults(List<model> results) {		
-		return (List<to>) results.stream().map(model -> this.getConverter().map(model, toClass))
+		return (List<to>) results.stream().map(model -> this.getConverter().map(model, this.getToClass()))
 				.collect(Collectors.toList());
 	}
 

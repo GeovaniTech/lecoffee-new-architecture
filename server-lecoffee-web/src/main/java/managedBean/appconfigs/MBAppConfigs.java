@@ -133,7 +133,7 @@ public class MBAppConfigs extends AbstractMBean {
 	}
 	
 	public boolean isUserLogged() {
-		if(this.getClient() != null) {
+		if(this.getClientSession() != null) {
 			return true;
 		}
 		
@@ -175,7 +175,7 @@ public class MBAppConfigs extends AbstractMBean {
 		this.localeList = localeList;
 	}
 	public TOClient getClientLogged() {
-		return this.getClient();
+		return this.getClientSession();
 	}
 	public IKeepClientSBean getClientSBean() {
 		return clientSBean;

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import abstracts.AbstractObject;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +28,7 @@ public class Client extends AbstractObject {
 	@OneToMany
 	private List<Cart> carts;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Address> addresses;
 	
 	public Client() {

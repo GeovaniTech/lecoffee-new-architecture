@@ -1,4 +1,4 @@
-package utils;
+package abstracts;
 
 import jakarta.el.ELContext;
 import jakarta.el.ExpressionFactory;
@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import to.client.TOClient;
 
-public class BaseSession {
+public abstract class AbstractSession {
 	protected HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 	protected HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
 	
@@ -22,7 +22,7 @@ public class BaseSession {
 		return session;
 	}
 	
-	protected TOClient getClient() {
+	protected TOClient getClientSession() {
 		return (TOClient) getSession().getAttribute("client");
 	}
 	
@@ -32,11 +32,11 @@ public class BaseSession {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <T> T getSBean(String beanName) {
+	public <T> T getMBean(String beanName) {
 		ELContext elcontext = FacesContext.getCurrentInstance().getELContext();
 		ExpressionFactory expressionFactory = FacesContext.getCurrentInstance().getApplication().getExpressionFactory();
 		
-		T bean = (T) expressionFactory.createValueExpression(elcontext, "#{" + beanName +"}", Object.class).getValue(elcontext);
+		T bean = (T) expressionFactory.createValueExpression(elcontext, "#" + "{" + beanName + "}", Object.class).getValue(elcontext);
 		
 		return bean;		
 	}

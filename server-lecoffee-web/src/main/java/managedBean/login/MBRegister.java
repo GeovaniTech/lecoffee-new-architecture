@@ -84,7 +84,7 @@ public class MBRegister extends AbstractMBean {
 			return false;
 		}
 		
-		if(this.getClientSBean().verifyClient(this.getEmail())) {
+		if(this.getClientSBean().existsClientByEmail(this.getEmail())) {
 			MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("existing_email"), FacesMessage.SEVERITY_ERROR);
 			return false;
 		}

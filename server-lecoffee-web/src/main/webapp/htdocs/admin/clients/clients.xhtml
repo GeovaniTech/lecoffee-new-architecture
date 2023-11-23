@@ -18,12 +18,19 @@
 			<h:outputStylesheet library="css" name="/admin/clients/clients.css" />
 
 			<h:form id="formClients">
-				<div class="top-buttons mg-b-10">
+				<p:remoteCommand
+					name="openEditClient"
+					action="#{MBClientAddress.clearFields}"
+					update="dialogClientInfo:tabview_client"
+					oncomplete="PF('dialogClientModelInfoVW').show();" />
+				
+				<div class="top-buttons mg-b-10">						
 					<p:commandButton 
 						action="#{MBClient.initNewClient}"
-						oncomplete="PF('dialogClientInfoVW').show()"
+						update="dialogClientInfo:tabview_client"
+						oncomplete="PF('dialogClientModelInfoVW').show();"
 						icon="pi pi-plus" 
-						styleClass="optionsButtonStyle" />
+						styleClass="optionsButtonStyle mg-r-10" />
 				</div>
 			
 				<p:dataTable 
@@ -37,6 +44,11 @@
                     selection="#{MBClient.client}"
                     selectionMode="single">
                     
+                    <p:ajax 
+                    	event="rowSelect" 
+                    	listener="#{MBClient.onRowSelect}"
+                    	oncomplete="openEditClient();" />
+
 					<p:column headerText="#{label.email}">
 						<h:outputText value="#{toClient.email}" />
 					</p:column>
@@ -59,12 +71,22 @@
 						</h:outputText>
 					</p:column>
 					
-					<p:column headerTe250pxxt="#{label.creation_user}">
+					<p:column headerText="#{label.creation_user}">
 						<h:outputText value="#{toClient.creationUser}" />
 					</p:column>
 					
 					<p:column headerText="#{label.creation_date}">
 						<h:outputText value="#{toClient.creationDate}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="#{label.change_user}">
+						<h:outputText value="#{toClient.changeUser}" />
+					</p:column>
+					
+					<p:column headerText="#{label.change_date}">
+						<h:outputText value="#{toClient.changeDate}">
 							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
 						</h:outputText>
 					</p:column>

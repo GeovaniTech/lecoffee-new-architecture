@@ -13,6 +13,14 @@ public class MBClientInfo extends AbstractMBean {
 	
 	private TOClient client;	
 	
+	public void save() {
+		
+	}
+	
+	public void change() {
+		
+	}
+	
 	// Getters and Setters
 	public TOClient getClient() {
 		return client;

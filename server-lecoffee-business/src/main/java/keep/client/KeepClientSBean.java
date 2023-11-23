@@ -3,7 +3,7 @@ package keep.client;
 import java.util.Date;
 import java.util.List;
 
-import abstracts.BaseKeep;
+import abstracts.AbstractKeep;
 import jakarta.ejb.Stateless;
 import jakarta.ejb.TransactionManagement;
 import jakarta.ejb.TransactionManagementType;
@@ -12,7 +12,9 @@ import jakarta.faces.context.FacesContext;
 import jakarta.persistence.Query;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import model.Address;
 import model.Client;
+import to.address.TOAddress;
 import to.client.TOClient;
 import to.client.TOFilterClient;
 import to.client.TOFilterLovClient;
@@ -24,7 +26,7 @@ import utils.StringUtil;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
-public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeepClientSBean, IKeepClientRemoteSBean {
+public class KeepClientSBean extends AbstractKeep<Client, TOClient> implements IKeepClientSBean, IKeepClientRemoteSBean {
 
 	public KeepClientSBean() {
 		super(Client.class, TOClient.class);
@@ -43,15 +45,20 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 
 	@Override
 	public void save(TOClient client) {
-		// TODO Auto-generated method stub
+		Client model = this.convertToModel(client);
+		model.setPassword(EncryptionUtil.encryptTextSHA("123"));
 		
+		this.getEntityManager().persist(model);
 	}
 
 	@Override
 	public void change(TOClient client) {
 		Client model = this.convertToModel(client);
-		
 		Client pattern = this.getEntityManager().find(Client.class, model.getId());
+		
+		for(TOAddress toAddress : client.getAdresses()) {
+			model.getAddresses().add(this.getConverter().map(toAddress, Address.class));
+		}
 		
 		if(StringUtil.isNull(model.getEmail())) {
 			model.setEmail(pattern.getEmail());
@@ -115,12 +122,12 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 			if(client.isChangePassword()) {
 				String token = JWTUtil.generateToken("newPassword", encrypedEmail);
 				
-				RedirectURL.redirectTo("/lecoffee/newpassword/ " + token);
+				RedirectURL.redirectTo("/lecoffee/newpassword/" + token);
 				
 				return false;
 			}
 			
-			TOClient to = this.convertToDTO(client);
+			TOClient to = this.getTOClient(client);
 			to.setLastLogin(new Date());
 			
 			this.change(to);
@@ -162,14 +169,27 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 				.setParameter("pEmail", email)
 				.getSingleResult();
 		
-		return this.convertToDTO(client);
+		
+		TOClient to = this.getTOClient(client);
+				
+		return to;
 	}
 
 	@Override
 	public TOClient findById(int id) {
 		Client client = this.getEntityManager().find(Client.class, id);
 		
-		return this.convertToDTO(client);
+		if(client != null) {
+			TOClient to = this.convertToDTO(client);
+
+			for(Address address : client.getAddresses()) {
+				to.getAdresses().add(this.getConverter().map(address, TOAddress.class));
+			}
+			
+			return to;
+		}
+		
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -180,6 +200,7 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 			.append(Client.class.getSimpleName()).append(" C ");
 		
 		sql.append(this.getWhereListClients());
+		sql.append(this.getOrderByListClients());
 		
 		Query query = this.getEntityManager().createQuery(sql.toString(), Client.class);
 		query.setFirstResult(filter.getFirstResult());
@@ -215,7 +236,8 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 		
 		sql.append(" UPDATE ")
 			.append(Client.class.getSimpleName()).append(" C ")
-			.append(" SET C.password = :pPassword ")
+			.append(" SET C.password = :pPassword, ")
+			.append(" C.changePassword = false ")
 			.append(" WHERE  C.email =  :pEmail ");
 		
 		Query query = this.getEntityManager().createQuery(sql.toString());
@@ -262,6 +284,53 @@ public class KeepClientSBean extends BaseKeep<Client, TOClient> implements IKeep
 		sql.append(" WHERE C.creationDate IS NOT NULL ");
 		
 		return sql.toString();
+	}
+	
+	public String getOrderByListClients() {
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append(" ORDER BY C.email ASC ");
+		
+		return sql.toString();
+	}
+
+	@Override
+	public boolean existsClientByEmail(String email) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(" SELECT C FROM ")
+			.append(Client.class.getSimpleName()).append(" C ")
+			.append(" WHERE C.email = :pEmail ");
+		
+		Query query = this.getEntityManager().createQuery(sql.toString(), Client.class);
+		query.setParameter("pEmail", email);
+		
+		return query.getResultList().size() == 1;
+	}
+	
+	@Override
+	public boolean existsClientByEmail(String email, int clientId) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(" SELECT C FROM ")
+			.append(Client.class.getSimpleName()).append(" C ")
+			.append(" WHERE C.email = :pEmail ")
+			.append(" AND C.id != :pClientId ");
+		
+		Query query = this.getEntityManager().createQuery(sql.toString(), Client.class);
+		query.setParameter("pEmail", email);
+		query.setParameter("pClientId", clientId);
+		
+		return query.getResultList().size() == 1;
+	}
+	
+
+	private TOClient getTOClient(Client client) {
+		TOClient to = this.convertToDTO(client);
+		
+		for(Address address : client.getAddresses()) {
+			to.getAdresses().add(this.getConverter().map(address, TOAddress.class));
+		}
+		
+		return to;
 	}
 
 }
