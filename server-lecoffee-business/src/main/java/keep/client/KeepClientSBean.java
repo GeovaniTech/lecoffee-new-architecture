@@ -47,6 +47,7 @@ public class KeepClientSBean extends AbstractKeep<Client, TOClient> implements I
 	public void save(TOClient client) {
 		Client model = this.convertToModel(client);
 		model.setPassword(EncryptionUtil.encryptTextSHA("123"));
+		model.setChangePassword(true);
 		
 		this.getEntityManager().persist(model);
 	}

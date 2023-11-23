@@ -26,7 +26,7 @@ public class MBLogin extends AbstractMBean {
 	private IKeepClientSBean clientSBean;
 
 	public void logar() {
-		if(EmailUtil.validateEmail(this.getEmail())) {
+		if(EmailUtil.isValidEmailPattern(this.getEmail())) {
 			this.getClientSBean().logar(this.getEmail(), this.getPassword());
 			
 			return;
@@ -66,7 +66,7 @@ public class MBLogin extends AbstractMBean {
 	}
 	
 	public void validateSendNewPassword() {
-		if(!EmailUtil.validateEmail(this.getEmail())) {
+		if(!EmailUtil.isValidEmailPattern(this.getEmail())) {
 			MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("invalid_email"), FacesMessage.SEVERITY_ERROR);
 			return;
 		}

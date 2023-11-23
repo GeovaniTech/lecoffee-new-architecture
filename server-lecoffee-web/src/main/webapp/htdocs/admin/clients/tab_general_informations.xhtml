@@ -29,7 +29,7 @@
 						placeholder="#{label.email}"
 						value="#{MBClientInfo.client.email}"
 						required="true"
-						requiredMessage="#{label.email_is_required}" />
+						requiredMessage="#{label.email_required}" />
 				</div>
 				
 				<div class="search-group">
@@ -91,7 +91,15 @@
 					value="#{label.save}" 
 					action="#{MBClientInfo.save}"
 					icon="pi pi-save" 
-					update="@form" />
+					update="@form, dialogClientInfo:tabview_client"
+					rendered="#{!MBClientInfo.editing}" />
+				
+				<p:commandButton 
+					value="#{label.save}" 
+					action="#{MBClientInfo.change}"
+					icon="pi pi-save" 
+					update="@form"
+					rendered="#{MBClientInfo.editing}" />
 			</f:facet>
 		</p:toolbar>
 	</h:form>

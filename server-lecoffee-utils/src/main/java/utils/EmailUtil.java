@@ -18,7 +18,7 @@ public class EmailUtil {
     private static final String EMAIL_REGEX = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
     private static final Pattern PATTERN = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
 
-    public static boolean validateEmail(String email) {
+    public static boolean isValidEmailPattern(String email) {
         Matcher matcher = PATTERN.matcher(email);
         return matcher.matches();
     }

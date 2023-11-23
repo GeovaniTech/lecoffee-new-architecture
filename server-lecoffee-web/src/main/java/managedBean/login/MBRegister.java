@@ -79,7 +79,7 @@ public class MBRegister extends AbstractMBean {
 	}
 	
 	public boolean verifyFields() {
-		if(!EmailUtil.validateEmail(this.getEmail())) {
+		if(!EmailUtil.isValidEmailPattern(this.getEmail())) {
 			MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("invalid_email"), FacesMessage.SEVERITY_ERROR);
 			return false;
 		}

@@ -41,6 +41,8 @@ public class MBClient extends AbstractMBean {
 	
 	public void initNewClient() {
 		this.getClientInfoMBean().setClient(new TOClient());
+		this.getClientInfoMBean().setEditing(false);
+		
 		this.getClientAddressMBean().setClient(null);
 	}
 	
@@ -92,6 +94,8 @@ public class MBClient extends AbstractMBean {
     	this.setClient(this.getClientSBean().findById(event.getObject().getId()));
     	
     	this.getClientInfoMBean().setClient(this.getClient());
+    	this.getClientInfoMBean().setEditing(true);
+    	
     	this.getClientAddressMBean().setClient(this.getClient());
     	
     	PrimeFaces.current().ajax().update("dialogClientInfo:tabview_client:infosClient");
