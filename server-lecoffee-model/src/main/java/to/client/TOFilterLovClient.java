@@ -75,5 +75,4 @@ public class TOFilterLovClient implements Serializable {
 		this.numberHouse = numberHouse;
 	}
 	
-	
 }

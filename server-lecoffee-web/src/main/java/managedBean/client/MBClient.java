@@ -46,6 +46,10 @@ public class MBClient extends AbstractMBean {
 		this.getClientAddressMBean().setClient(null);
 	}
 	
+	public void clearFilters() {
+		this.setFilter(new TOFilterClient());
+	}
+	
 	public void searchClients() {
 		this.setResults(new LazyDataModel<TOClient>() {
 			

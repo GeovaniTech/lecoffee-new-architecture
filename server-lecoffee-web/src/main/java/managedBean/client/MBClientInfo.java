@@ -66,8 +66,7 @@ public class MBClientInfo extends AbstractMBean {
 			return false;
 		}
 		
-		if(this.getClientSBean().existsClientByEmail(this.getClient().getEmail(), this.getClient().getId())
-				|| this.getClient().getEmail().equals(this.getClientSession().getEmail())) {
+		if(this.getClientSBean().existsClientByEmail(this.getClient().getEmail(), this.getClient().getId())) {
 
 			MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("existing_email"), FacesMessage.SEVERITY_ERROR);
 			return false;

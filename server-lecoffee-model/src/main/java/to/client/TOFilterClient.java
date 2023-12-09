@@ -1,17 +1,24 @@
 package to.client;
 
-import java.util.Date;
-
 import abstracts.AbstractTOFilter;
+import to.TODateRangeFilter;
+import to.TOInputFilter;
 
 public class TOFilterClient extends AbstractTOFilter {
+	private static final long serialVersionUID = 3575492733459738282L;
+	
 	private int id;
-	private String name;
-	private String email;
+	private TOInputFilter email;
 	private String securityLevel;
-	private Date lastLogin;
-	private boolean blocked;
-	private String phoneNumber;
+	private Boolean blocked;
+	private TOInputFilter phoneNumber;
+	private TODateRangeFilter lastLogin;
+	
+	public TOFilterClient() {
+		this.setEmail(new TOInputFilter());
+		this.setPhoneNumber(new TOInputFilter());
+		this.setLastLogin(new TODateRangeFilter());
+	}
 	
 	// Getters and Setters
 	public int getId() {
@@ -20,40 +27,34 @@ public class TOFilterClient extends AbstractTOFilter {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
 	public String getSecurityLevel() {
 		return securityLevel;
 	}
 	public void setSecurityLevel(String securityLevel) {
 		this.securityLevel = securityLevel;
 	}
-	public Date getLastLogin() {
+	public TODateRangeFilter getLastLogin() {
 		return lastLogin;
 	}
-	public void setLastLogin(Date lastLogin) {
+	public void setLastLogin(TODateRangeFilter lastLogin) {
 		this.lastLogin = lastLogin;
 	}
-	public boolean isBlocked() {
+	public Boolean getBlocked() {
 		return blocked;
 	}
-	public void setBlocked(boolean blocked) {
+	public void setBlocked(Boolean blocked) {
 		this.blocked = blocked;
 	}
-	public String getPhoneNumber() {
+	public TOInputFilter getEmail() {
+		return email;
+	}
+	public void setEmail(TOInputFilter email) {
+		this.email = email;
+	}
+	public TOInputFilter getPhoneNumber() {
 		return phoneNumber;
 	}
-	public void setPhoneNumber(String phoneNumber) {
+	public void setPhoneNumber(TOInputFilter phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
 

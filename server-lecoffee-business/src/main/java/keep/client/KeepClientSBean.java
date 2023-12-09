@@ -1,5 +1,6 @@
 package keep.client;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,10 +11,13 @@ import jakarta.ejb.TransactionManagementType;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.persistence.Query;
+import jakarta.persistence.TemporalType;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Address;
 import model.Client;
+import query.SimpleWhere;
+import to.TOParameter;
 import to.address.TOAddress;
 import to.client.TOClient;
 import to.client.TOFilterClient;
@@ -200,12 +204,15 @@ public class KeepClientSBean extends AbstractKeep<Client, TOClient> implements I
 		sql.append(" SELECT C FROM ")
 			.append(Client.class.getSimpleName()).append(" C ");
 		
-		sql.append(this.getWhereListClients());
+		List<TOParameter> params = new ArrayList<TOParameter>();
+		
+		sql.append(this.getWhereListClients(filter, params));
 		sql.append(this.getOrderByListClients());
 		
 		Query query = this.getEntityManager().createQuery(sql.toString(), Client.class);
 		query.setFirstResult(filter.getFirstResult());
 		query.setMaxResults(filter.getMaxResults());
+		setParameters(query, params);
 				
 		return this.convertModelResults(query.getResultList());
 	}
@@ -216,9 +223,12 @@ public class KeepClientSBean extends AbstractKeep<Client, TOClient> implements I
 		sql.append(" SELECT COUNT(C.id) FROM ")
 			.append(Client.class.getSimpleName()).append(" C ");
 		
-		sql.append(this.getWhereListClients());
+		List<TOParameter> params = new  ArrayList<TOParameter>();
+		
+		sql.append(this.getWhereListClients(filter, params));
 		
 		Query query = this.getEntityManager().createQuery(sql.toString(), Number.class);
+		setParameters(query, params);
 		
 		Number value = (Number) query.getSingleResult();
 		
@@ -239,7 +249,7 @@ public class KeepClientSBean extends AbstractKeep<Client, TOClient> implements I
 			.append(Client.class.getSimpleName()).append(" C ")
 			.append(" SET C.password = :pPassword, ")
 			.append(" C.changePassword = false ")
-			.append(" WHERE  C.email =  :pEmail ");
+			.append(" WHERE  C.email = :pEmail ");
 		
 		Query query = this.getEntityManager().createQuery(sql.toString());
 		query.setParameter("pPassword", EncryptionUtil.encryptTextSHA(password));
@@ -279,10 +289,23 @@ public class KeepClientSBean extends AbstractKeep<Client, TOClient> implements I
 		MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("user_already_completed_registration"), FacesMessage.SEVERITY_ERROR);
 	}
 	
-	public String getWhereListClients() {
+	public String getWhereListClients(TOFilterClient filter, List<TOParameter> params) {
 		StringBuilder sql = new StringBuilder();
 		
 		sql.append(" WHERE C.creationDate IS NOT NULL ");
+		sql.append(SimpleWhere.queryFilter("C.email", filter.getEmail()));
+		sql.append(SimpleWhere.queryFilter("C.phoneNumber", filter.getPhoneNumber()));
+		sql.append(SimpleWhere.queryFilterDateRange("C.lastLogin", filter.getLastLogin(), TemporalType.TIMESTAMP, params));
+		
+		if(StringUtil.isNotNull(filter.getSecurityLevel())) {
+			sql.append(" AND C.securityLevel = :securityLevel ");
+			params.add(new TOParameter("securityLevel", filter.getSecurityLevel()));
+		}
+		
+		if(filter.getBlocked() != null) {
+			sql.append(" AND C.blocked = :blocked ");
+			params.add(new TOParameter("blocked", filter.getBlocked()));
+		}
 		
 		return sql.toString();
 	}
@@ -323,7 +346,6 @@ public class KeepClientSBean extends AbstractKeep<Client, TOClient> implements I
 		return query.getResultList().size() == 1;
 	}
 	
-
 	private TOClient getTOClient(Client client) {
 		TOClient to = this.convertToDTO(client);
 		

@@ -1,5 +1,6 @@
 package abstracts;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,6 +8,8 @@ import org.modelmapper.ModelMapper;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
+import to.TOParameter;
 
 public abstract class AbstractKeep<model, to> extends AbstractSession {	
 	@PersistenceContext(unitName = "lecoffee_datasource")
@@ -40,6 +43,16 @@ public abstract class AbstractKeep<model, to> extends AbstractSession {
 	// Getters and Setters
 	public EntityManager getEntityManager() {
 		return entityManager;
+	}
+	
+	public void setParameters(Query query, List<TOParameter> params) {
+		for(TOParameter param : params) {
+			if(param.getDateType() != null) {
+				query.setParameter(param.getParamName(), (Date) param.getValue(), param.getDateType());
+			}
+			
+			query.setParameter(param.getParamName(), param.getValue());
+		}
 	}
 
 	public void setEntityManager(EntityManager entityManager) {
