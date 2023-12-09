@@ -10,6 +10,8 @@ import jakarta.inject.Named;
 import keep.client.IKeepClientSBean;
 import to.client.TOClient;
 import utils.EmailUtil;
+import utils.EncryptionUtil;
+import utils.JWTUtil;
 import utils.MessageUtil;
 
 @Named("MBClientInfo")
@@ -73,6 +75,24 @@ public class MBClientInfo extends AbstractMBean {
 		}
 		
 		return true;
+	}
+	
+	public void sendWelcomeEmailWithPassword() {
+		StringBuilder description = new StringBuilder();
+		
+		description.append("<h2>Bem-vindo(a) LeCoffee!</h2>");
+		description.append("<p>Olá,	</p>");
+		description.append("<p>Agradecemos por se cadastrar na LeCoffee! ");
+		description.append("Estamos felizes em tê-lo(a) como nosso(a) cliente.</p>");
+		description.append("<p>Seu cadastro foi realizado manualmente. Para o seu primeiro acesso à plataforma, utilize o seu e-mail e a senha temporária 123. Após o primeiro login, recomendamos que escolha uma nova senha para garantir a segurança da sua conta.</p>");
+		description.append("<p><a href=http://localhost:8080/lecoffee/login>");
+		description.append("Acessar a LeCoffee</a></p>");
+		description.append("<p>Caso você não tenha solicitado uma conta na LeCoffee ");
+		description.append("ou acredite que este email tenha sido enviado por engano, por favor, desconsidere esta mensagem.</p>");
+		description.append("Atenciosamente, <br>");
+		description.append("A equipe LeCoffee <br>");
+		
+		EmailUtil.sendMail(this.getClient().getEmail(), "Bem-vindo(a) à LeCoffee!", description.toString(), MessageUtil.getMessageFromProperties("msg_email_successfully_sent"));
 	}
 	
     public MBClientAddress getClientAddressMBean() {

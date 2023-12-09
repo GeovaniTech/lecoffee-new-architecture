@@ -92,14 +92,24 @@
 					action="#{MBClientInfo.save}"
 					icon="pi pi-save" 
 					update="@form, dialogClientInfo:tabview_client"
-					rendered="#{!MBClientInfo.editing}" />
+					rendered="#{!MBClientInfo.editing}"
+					styleClass="mg-r-5" />
 				
 				<p:commandButton 
 					value="#{label.save}" 
 					action="#{MBClientInfo.change}"
 					icon="pi pi-save" 
 					update="@form"
-					rendered="#{MBClientInfo.editing}" />
+					rendered="#{MBClientInfo.editing}"
+					styleClass="mg-r-5" />
+					
+				<p:commandButton
+					value="#{label.send_welcome_email}" 
+					action="#{MBClientInfo.sendWelcomeEmailWithPassword}"
+					icon="pi pi-send" 
+					update="@form"
+					disabled="#{!MBClientInfo.editing}">
+				</p:commandButton>
 			</f:facet>
 		</p:toolbar>
 	</h:form>
