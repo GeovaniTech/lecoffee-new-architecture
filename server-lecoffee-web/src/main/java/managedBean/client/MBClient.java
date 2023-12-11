@@ -24,7 +24,6 @@ public class MBClient extends AbstractMBean {
 
 	private static final long serialVersionUID = 9099066833372360110L;
 	
-	private List<TOClient> clients;
 	private LazyDataModel<TOClient> results;
 	private TOFilterClient filter;
 	private TOClient client;
@@ -114,14 +113,6 @@ public class MBClient extends AbstractMBean {
     	return (MBClientAddress) this.getMBean("MBClientAddress");
     }
 	// Getters and Setters
-	public List<TOClient> getClients() {
-		return clients;
-	}
-
-	public void setClients(List<TOClient> clients) {
-		this.clients = clients;
-	}
-
 	public IKeepClientSBean getClientSBean() {
 		return clientSBean;
 	}

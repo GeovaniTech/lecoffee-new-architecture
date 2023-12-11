@@ -150,7 +150,7 @@ public class KeepClientSBean extends AbstractKeep<Client, TOClient> implements I
 			if(client.getSecurityLevel().equals("client")) {
 				RedirectURL.redirectTo("/lecoffee/home");
 			} else {
-				RedirectURL.redirectTo("/lecoffee/admin/clients");
+				RedirectURL.redirectTo("/lecoffee/admin/products");
 			}	
 			
 			return true;

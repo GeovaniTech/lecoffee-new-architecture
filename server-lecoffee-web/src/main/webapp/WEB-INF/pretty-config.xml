@@ -38,4 +38,9 @@
 		<view-id value="/htdocs/admin/clients/clients.xhtml" />
 	</url-mapping>
 	
+	<!-- ADMIN - PRODUCTS -->
+	<url-mapping>
+		<pattern value="/admin/products" />
+		<view-id value="/htdocs/admin/products/products.xhtml" />
+	</url-mapping>
 </pretty-config>

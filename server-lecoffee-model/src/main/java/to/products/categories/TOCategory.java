@@ -1,21 +1,16 @@
-package model;
+package to.products.categories;
 
-import abstracts.AbstractObject;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import abstracts.AbstractTOObject;
 
-@Entity
-public class Category extends AbstractObject {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TOCategory extends AbstractTOObject {
+
+	private static final long serialVersionUID = 6714985906883204379L;
+
 	private int id;
 	private String name;
 	private String icon;
 	private Integer priority;
-	
-	// Getters and Setters
+		
 	public int getId() {
 		return id;
 	}

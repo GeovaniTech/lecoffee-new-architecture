@@ -17,6 +17,8 @@
 		<composite:attribute name="position" />
 		<composite:attribute name="modal" />
 		<composite:attribute name="width" />
+		<composite:attribute name="onHide" />
+		<composite:attribute name="onShow" />
 	</composite:interface>
 	
 	<composite:implementation>
@@ -29,7 +31,9 @@
 			draggable="#{cc.attrs.draggable}"
 			position="#{cc.attrs.position}" 
 			modal="#{cc.attrs.modal}"
-			width="#{cc.attrs.width}">
+			width="#{cc.attrs.width}"
+			onHide="#{cc.attrs.onHide}"
+			onShow="#{cc.attrs.onShow}">
 	
 			<p:scrollPanel 
 				mode="native" 

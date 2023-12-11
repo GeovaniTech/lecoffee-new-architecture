@@ -74,7 +74,7 @@ public class MBAppConfigs extends AbstractMBean {
 		
 		if(StringUtil.isNotNull(userEmail)) {
 			try {
-				TOClient client =  this.getClientSBean().findByEmail(EncryptionUtil.decryptNormalText(userEmail));
+				TOClient client = this.getClientSBean().findByEmail(EncryptionUtil.decryptNormalText(userEmail));
 				
 				if(client.isBlocked()) {
 					RedirectURL.redirectTo("/lecoffee/login");
@@ -88,7 +88,7 @@ public class MBAppConfigs extends AbstractMBean {
 				this.getClientSBean().change(client);
 			
 				if(this.getClientLogged().getSecurityLevel().equals("admin")) {
-					RedirectURL.redirectTo("/lecoffee/admin/clients");
+					RedirectURL.redirectTo("/lecoffee/admin/products");
 				} else {
 					RedirectURL.redirectTo("/lecoffee/home");
 				}
