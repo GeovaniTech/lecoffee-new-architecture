@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:components="http://java.sun.com/jsf/composite/components">
+
+<h:body>
+	<ui:composition>
+		<components:dialog
+			id="dialogBannerInfo" 
+			widgetVar="dialogBannerInfoVW"
+			header="#{label.banner}"
+			onHide="updateTableBanners();">
+			
+			<h:form id="formBannerInfo">
+				<p:messages 
+	       			id="bannerInfoMessages" 
+	        		autoUpdate="true"
+	        		showIcon="false"
+	        		showDetail="false" />
+	        		
+				<div class="horizontal-left-center">
+					<div class="search-group">
+						<p:outputLabel for="name" value="#{label.name}" />
+						<p:inputText 	
+							id="name"
+							value="#{MBBannerInfo.banner.name}"
+							required="true"
+							requiredMessage="#{label.name_required}" />
+					</div>
+					
+					<div class="search-group">
+						<h:graphicImage 
+							id="imageBanner"
+							style="width: 200px; height: 100px; border-radius: 10px;"
+							rendered="#{MBBannerInfo.banner.bytes != null}"
+							value="data:image/png;base64,#{MBAppConfigs.getRenderedImage(MBBannerInfo.banner.bytes)}" />
+					</div>
+				</div>
+				
+				<div class="search-group">
+					<p:outputLabel value="#{label.upload_files}" for="fileUpload" />
+					<p:fileUpload
+						id="fileUpload"
+						multiple="false"
+						mode="advanced" 
+						showButtons="false"
+						label="#{label.search}" 
+						cancelLabel="#{label.cancel}"
+						uploadLabel="#{label.upload_files}"
+						update="@form"
+						listener="#{MBBannerInfo.addImage}" 
+						sizeLimit="102400" 
+						allowTypes="/(\.|\/)(jpe?g|png)$/"
+                        invalidSizeMessage="#{label.msg_max_size_allowed}"
+                        invalidFileMessage="#{label.msg_types_allowed}"
+						process="@form"
+						required="true"
+						style="width: 100% !important;"
+						requiredMessage="#{label.select_image_required}" />
+				</div>
+				
+				<p:toolbar>
+					<f:facet name="left">
+						<p:commandButton
+							icon="pi pi-save" 
+							value="#{label.save}"
+							action="#{MBBannerInfo.save}"
+							rendered="#{!MBBannerInfo.editing}"
+							disabled="#{MBBannerInfo.banner == null}"
+							styleClass="mg-r-5"
+							update="@form" />
+							
+						<p:commandButton
+							icon="pi pi-save" 
+							value="#{label.save}"
+							action="#{MBBannerInfo.change}"
+							rendered="#{MBBannerInfo.editing}"
+							disabled="#{MBBannerInfo.banner == null}"
+							styleClass="mg-r-5"
+							update="@form" />
+							
+						<p:commandButton
+							icon="pi pi-trash" 
+							value="#{label.remove}"
+							action="#{MBBannerInfo.remove}"
+							disabled="#{MBBannerInfo.banner == null or !MBBannerInfo.editing}"
+							styleClass="deleteStyle"
+							update="@form" />						
+					</f:facet>
+				</p:toolbar>
+			</h:form>
+		</components:dialog>
+	</ui:composition>
+</h:body>
+</html>

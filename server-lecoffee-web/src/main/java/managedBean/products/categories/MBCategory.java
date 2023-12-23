@@ -26,6 +26,7 @@ public class MBCategory extends AbstractMBean {
 	private LazyDataModel<TOCategory> results;
 	private TOFilterCategory filter;
 	private TOCategory category;
+	private Integer totalLines;
 	
 	@EJB
 	private IKeepCategorySBean categorySBean;
@@ -34,6 +35,10 @@ public class MBCategory extends AbstractMBean {
 	public void init() {
 		this.setFilter(new TOFilterCategory());
 		this.searchCategories();
+	}
+	
+	public String getTextButtonInit() {
+		return "Teste Geovani " + this.getTotalLines();
 	}
 	
 	public void searchCategories() {
@@ -50,7 +55,9 @@ public class MBCategory extends AbstractMBean {
 				getFilter().setFirstResult(first);
 				getFilter().setMaxResults(pageSize);
 				
-				setRowCount(getCategorySBean().countCategories(getFilter()));
+				MBCategory.this.setTotalLines(getCategorySBean().countCategories(getFilter()));
+				
+				setRowCount(MBCategory.this.getTotalLines());
 				
 				categories = getCategorySBean().getResults(getFilter());
 				
@@ -127,6 +134,14 @@ public class MBCategory extends AbstractMBean {
 
 	public void setCategory(TOCategory category) {
 		this.category = category;
+	}
+
+	public Integer getTotalLines() {
+		return totalLines;
+	}
+
+	public void setTotalLines(Integer totalLines) {
+		this.totalLines = totalLines;
 	}
 
 }

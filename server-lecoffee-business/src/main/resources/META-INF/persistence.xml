@@ -14,6 +14,7 @@
 		<class>model.Client</class>
 		<class>model.Item</class>
 		<class>model.Product</class>
+		<class>model.Banner</class>
 		
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
