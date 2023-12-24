@@ -63,17 +63,6 @@
 				style="max-height: calc(100vh - 60px); width: 100%;">
 				
 				<div class="menu" id="menu">
-					<p:commandLink 
-						id="menu-pedidos"
-						action="#{MBAppConfigs.redirectTo('/lecoffee/admin/pedidos')}">
-						
-						<span class="material-symbols-outlined google-icons">
-							bakery_dining
-						</span>
-						
-						#{label.orders}
-					</p:commandLink>
-					
 					<p:commandLink
 						id="menu-products"
 						action="#{MBAppConfigs.redirectTo('/lecoffee/admin/products')}">
@@ -86,17 +75,6 @@
 					</p:commandLink>
 					
 					<p:commandLink 
-						id="menu-ganhos"
-						action="#{MBAppConfigs.redirectTo('/lecoffee/admin/earnings')}">
-						
-						<span class="material-symbols-outlined google-icons">
-							currency_bitcoin
-						</span>
-						
-						#{label.earnings}
-					</p:commandLink>
-					
-					<p:commandLink 
 						id="menu-clientes"
 						action="#{MBAppConfigs.redirectTo('/lecoffee/admin/clients')}">
 						
@@ -105,16 +83,6 @@
 						</span>
 						
 						#{label.customers}
-					</p:commandLink>
-
-					<p:commandLink
-						action="#{MBAppConfigs.redirectTo('/lecoffee/home')}">
-						
-						<span class="material-symbols-outlined google-icons"> 
-							web 
-						</span>
-						
-						#{label.landing_page}
 					</p:commandLink>
 				</div>
 			</p:scrollPanel>

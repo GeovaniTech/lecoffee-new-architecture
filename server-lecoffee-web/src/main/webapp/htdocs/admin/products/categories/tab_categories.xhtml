@@ -20,7 +20,6 @@
 			<div class="top-buttons mg-b-10">						
 				<p:commandButton 
 					id="btnInitNewCategory"
-					value="#{MBCategory.getTextButtonInit()}"
 					action="#{MBCategory.initNewCategory}"
 					oncomplete="PF('dialogCategoryInfoVW').show();"
 					icon="pi pi-plus" 
@@ -48,18 +47,13 @@
 				</div>
 				
 				<p:toolbar>
-					<f:facet name="left">
-						<p:remoteCommand 
-							name="updateTotalLines"
-							update="@form:btnInitNewCategory" />
-					
+					<f:facet name="left">					
 						<p:commandButton 
 							id="btnSearchResults"
 							icon="pi pi-search"
 							value="#{label.search}"
-							update="@form:tableCategories, @form:btnInitNewCategory"
-							onclick="PF('tableCategoriesVW').filter();"
-							oncomplete="updateTotalLines();"
+							update="@form:tableCategories"
+							onclick="PF('tableCategoriesVW').filt0er();"
 							styleClass="mg-r-5" />
 	
 						<p:commandButton 

@@ -36,11 +36,7 @@ public class MBCategory extends AbstractMBean {
 		this.setFilter(new TOFilterCategory());
 		this.searchCategories();
 	}
-	
-	public String getTextButtonInit() {
-		return "Teste Geovani " + this.getTotalLines();
-	}
-	
+
 	public void searchCategories() {
 		this.setResults(new LazyDataModel<TOCategory>() {
 

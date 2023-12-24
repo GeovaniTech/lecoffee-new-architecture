@@ -106,6 +106,7 @@
 				<p:commandButton
 					value="#{label.send_welcome_email}"
 					action="#{MBClientInfo.sendWelcomeEmailWithPassword}"
+					styleClass="secondary-bt"
 					icon="pi pi-send" 
 					update="@form"
 					disabled="#{!MBClientInfo.editing}">
