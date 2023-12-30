@@ -23,6 +23,15 @@
 		<module>server-lecoffee</module>
 	</modules>
 
+	<distributionManagement>
+          <repository>
+     	   	 <id>lecoffee-new-architeture</id>
+     		 <name>lecoffee-new-architeture</name>
+     		 <url>file://.m2/repository</url>
+  	  </repository>
+ 	</distributionManagement>
+
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
