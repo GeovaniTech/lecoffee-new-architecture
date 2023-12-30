@@ -10,7 +10,7 @@ public class TOCategory extends AbstractTOObject {
 	private String name;
 	private String icon;
 	private Integer priority;
-		
+	
 	public int getId() {
 		return id;
 	}
@@ -35,5 +35,5 @@ public class TOCategory extends AbstractTOObject {
 	public void setPriority(Integer priority) {
 		this.priority = priority;
 	}
-	
+
 }

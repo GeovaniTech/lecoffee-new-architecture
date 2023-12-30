@@ -5,6 +5,7 @@ import java.util.Date;
 import org.primefaces.PrimeFaces;
 
 import abstracts.AbstractMBean;
+import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
@@ -22,6 +23,12 @@ public class MBCategoryInfo extends AbstractMBean {
 	
 	@EJB
 	private IKeepCategorySBean categorySBean;
+	
+	@PostConstruct
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub	
+	}
 	
 	public void initCategory() {
 		this.setCategory(new TOCategory());

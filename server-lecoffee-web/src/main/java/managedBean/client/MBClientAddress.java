@@ -5,6 +5,7 @@ import java.util.Date;
 import org.primefaces.event.SelectEvent;
 
 import abstracts.AbstractMBean;
+import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.view.ViewScoped;
@@ -36,7 +37,9 @@ public class MBClientAddress extends AbstractMBean {
 	@EJB
 	private IKeepAddressSBean addressSBean;
 	
-	public MBClientAddress() {
+	@PostConstruct
+	@Override
+	public void init() {
 		this.setAddress(new TOAddress());
 		this.setEditing(false);
 	}

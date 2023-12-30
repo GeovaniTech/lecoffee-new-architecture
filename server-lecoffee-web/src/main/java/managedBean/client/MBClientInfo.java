@@ -3,6 +3,7 @@ package managedBean.client;
 import java.util.Date;
 
 import abstracts.AbstractMBean;
+import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.view.ViewScoped;
@@ -10,8 +11,6 @@ import jakarta.inject.Named;
 import keep.client.IKeepClientSBean;
 import to.client.TOClient;
 import utils.EmailUtil;
-import utils.EncryptionUtil;
-import utils.JWTUtil;
 import utils.MessageUtil;
 
 @Named("MBClientInfo")
@@ -25,6 +24,12 @@ public class MBClientInfo extends AbstractMBean {
 	
 	@EJB
 	private IKeepClientSBean clientSBean;
+	
+	@PostConstruct
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub	
+	}
 	
 	public void save() {
 		try {

@@ -1,6 +1,7 @@
 package managedBean.login;
 
 import abstracts.AbstractMBean;
+import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.view.ViewScoped;
@@ -25,6 +26,12 @@ public class MBLogin extends AbstractMBean {
 	@EJB
 	private IKeepClientSBean clientSBean;
 
+	@PostConstruct
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub	
+	}
+	
 	public void logar() {
 		if(EmailUtil.isValidEmailPattern(this.getEmail())) {
 			this.getClientSBean().logar(this.getEmail(), this.getPassword());

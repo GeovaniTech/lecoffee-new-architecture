@@ -7,6 +7,7 @@ import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 
 import abstracts.AbstractMBean;
+import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.view.ViewScoped;
@@ -28,6 +29,12 @@ public class MBBannerInfo extends AbstractMBean {
 	
 	@EJB
 	private IKeepBannerSBean bannerSBean;
+	
+	@PostConstruct
+	@Override
+	public void init() {
+		
+	}
 	
 	public void initBanner() {
 		this.setBanner(new TOBanner());

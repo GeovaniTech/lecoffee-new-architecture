@@ -13,5 +13,6 @@ public interface IKeepCategorySBean {
 	public void remove(TOCategory category);
 	public int countCategories(TOFilterCategory filter);
 	public List<TOCategory> getResults(TOFilterCategory filter);
+	public List<TOCategory> getResults();
 	public TOCategory findById(int id);
 }

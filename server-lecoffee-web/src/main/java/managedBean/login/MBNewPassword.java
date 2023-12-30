@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import abstracts.AbstractMBean;
+import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
@@ -30,7 +31,9 @@ public class MBNewPassword extends AbstractMBean {
 	@EJB
 	private IKeepClientSBean clientSBean;
 	
-	public MBNewPassword() {
+	@PostConstruct
+	@Override
+	public void init() {
 		this.setBlacklistTokens(new ArrayList<String>());
 	}
 	

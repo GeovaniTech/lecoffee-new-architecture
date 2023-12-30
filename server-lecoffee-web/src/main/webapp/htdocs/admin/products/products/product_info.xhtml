@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:components="http://java.sun.com/jsf/composite/components"
+	xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+<h:body>
+	<ui:composition>
+		<style>
+			.select-image-upload {
+				width: 100%;
+				padding: 15px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border: dashed 1px gray;
+				background-color: var(--background-general-mouse);
+				border-radius: 8px;
+			}
+		</style>
+		
+		<components:dialog
+			id="dialogProductInfo" 
+			widgetVar="dialogProductInfoVW"
+			header="#{label.product}"
+			onHide="updateTableProducts();">
+			
+			<h:form id="formProductInfo">
+				<p:messages 
+	       			id="productInfoMessages" 
+	        		autoUpdate="true"
+	        		showIcon="false"
+	        		showDetail="false" />
+			
+				<div class="horizontal-left-center">
+					<div class="search-group">
+						<p:outputLabel for="name" value="#{label.name}" />
+						<p:inputText 	
+							id="name"
+							value="#{MBProductInfo.product.name}"
+							required="true"
+							requiredMessage="#{label.name_required}" />
+					</div>
+					
+					<div class="search-group">
+						<p:outputLabel for="price" value="#{label.price}"/>
+						<p:inputNumber
+							id="price"
+							value="#{MBProductInfo.product.price}"
+							required="true"
+							requiredMessage="#{label.price_required}"
+							decimalSeparator="," 
+							thousandSeparator="." 
+							pattern="#.##0,00"
+							style="width: 100% !important;" />
+					</div>
+					
+					<div class="search-group">
+						<p:outputLabel for="category" value="#{label.category}"/>
+						<p:selectOneMenu 
+							id="category" 
+							value="#{MBProductInfo.idCategorySelected}"
+							style="width: 225px;"
+							required="true">
+							
+							<f:selectItems 
+								var="category"
+								value="#{MBProductInfo.categories}"
+								itemLabel="#{category.name}"
+								itemValue="#{category.id}" />
+						</p:selectOneMenu>
+					</div>
+				</div>
+				
+				<div class="horizontal-left-center">
+					<div class="search-group" style="width: 100%;">
+						<p:outputLabel for="description" value="#{label.description}" />
+						<p:inputTextarea 
+							id="description"
+							value="#{MBProductInfo.product.description}"
+							style="width: 100% !important;" />
+					</div>
+				</div>
+			
+				<div class="horizontal-left-center">
+					<div class="seach-group" style="width: 100%;">
+						<p:outputLabel for="imageProductSelect" value="#{label.product_image} *"/>
+						<div jsf:id="imageProductSelect"
+							 class="select-image-upload" 
+							 onclick="PF('uploadImage').show(); return false;"
+							 style="display: #{MBProductInfo.product.imageBytes == null ? 'flex' : 'none' }">
+							
+							<p>#{label.click_to_select_an_image}</p>
+						</div>
+					</div>
+				</div>
+				
+				<h:graphicImage 
+					id="productImage"
+					rendered="#{MBProductInfo.product.imageBytes != null}"
+					style="width: 200px; height: 100px; border-radius: 10px;"
+					onclick="PF('uploadImage').show(); return false;"
+					value="data:image/png;base64,#{MBAppConfigs.getRenderedImage(MBProductInfo.product.imageBytes)}" />
+			
+				<p:fileUpload
+					id="fileUpload"
+					multiple="false"
+					mode="advanced" 
+					widgetVar="uploadImage"
+					showButtons="false"
+					label="#{label.search}" 
+					cancelLabel="#{label.cancel}"
+					uploadLabel="#{label.upload_files}"
+					auto="true"
+					update="@form, @form:productInfoMessages"
+					listener="#{MBProductInfo.addImage}" 
+					sizeLimit="102400" 
+					allowTypes="/(\.|\/)(jpe?g|png)$/"
+                    invalidSizeMessage="#{label.msg_max_size_allowed}"
+                    invalidFileMessage="#{label.msg_types_allowed}"
+					process="@this"
+					required="true"
+					style="width: 100% !important; display: none;"
+					requiredMessage="#{label.select_image_required}" />
+				
+				<p:toolbar>
+					<f:facet name="left">
+						<p:commandButton
+							icon="pi pi-save" 
+							value="#{label.save}"
+							action="#{MBProductInfo.save}"
+							rendered="#{!MBProductInfo.editing}"
+							disabled="#{MBProductInfo.product == null}"
+							styleClass="mg-r-5"
+							update="@form" />
+							
+						<p:commandButton
+							icon="pi pi-save" 
+							value="#{label.save}"
+							action="#{MBProductInfo.change}"
+							rendered="#{MBProductInfo.editing}"
+							disabled="#{MBProductInfo.product == null}"
+							styleClass="mg-r-5"
+							update="@form" />
+							
+						<p:commandButton
+							icon="pi pi-trash" 
+							value="#{label.remove}"
+							action="#{MBProductInfo.remove}"
+							disabled="#{MBProductInfo.product == null or !MBProductInfo.editing}"
+							styleClass="deleteStyle"
+							update="@form" />
+					</f:facet>
+				</p:toolbar>
+			</h:form>
+		</components:dialog>
+	</ui:composition>
+</h:body>
+</html>

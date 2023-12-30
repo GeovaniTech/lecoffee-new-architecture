@@ -82,6 +82,18 @@ public class KeepCategorySBean extends AbstractKeep<Category, TOCategory> implem
 		
 		return this.convertModelResults(query.getResultList());
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<TOCategory> getResults() {
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append(" SELECT C FROM ");
+		sql.append(Category.class.getSimpleName()).append(" C ");
+		
+		Query query = this.getEntityManager().createQuery(sql.toString(), Category.class);
+		return this.convertModelResults(query.getResultList());
+	}
 
 	@Override
 	public TOCategory findById(int id) {

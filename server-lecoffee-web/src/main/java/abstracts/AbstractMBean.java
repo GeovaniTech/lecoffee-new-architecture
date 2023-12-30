@@ -8,6 +8,8 @@ import utils.MessageUtil;
 public abstract class AbstractMBean extends AbstractSession implements Serializable {
 	private static final long serialVersionUID = -3126954606226723860L;
 	
+	public abstract void init();
+	
 	public void showMessageItemSaved(String itemName) {
 		MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("msg_item_saved", itemName), FacesMessage.SEVERITY_INFO);
 	}

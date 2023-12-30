@@ -19,12 +19,16 @@
 			<h:outputStylesheet library="css" name="/admin/products/products.css" />
 			
 			<p:tabView id="tabViewProducts" dynamic="true">
-				<p:tab id="tab_banners" title="#{label.banners}">
-					<ui:include src="/htdocs/admin/products/banners/tab_banners.xhtml" />
+				<p:tab id="tab_products" title="#{label.products}">
+					<ui:include src="/htdocs/admin/products/products/tab_products.xhtml" />
 				</p:tab>
-			
+				
 				<p:tab id="tab_categories" title="#{label.categories}">
 					<ui:include src="/htdocs/admin/products/categories/tab_categories.xhtml" />
+				</p:tab>
+				
+				<p:tab id="tab_banners" title="#{label.banners}">
+					<ui:include src="/htdocs/admin/products/banners/tab_banners.xhtml" />
 				</p:tab>
 			</p:tabView>
 		</ui:define>
