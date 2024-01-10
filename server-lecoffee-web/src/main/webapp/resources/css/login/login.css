@@ -13,6 +13,11 @@
 	color: var(--text-mouse);
 }
 
+.version {
+	font-size: 13px;
+	color: gray;
+}
+
 .logo span {
 	color: var(--green);
 }

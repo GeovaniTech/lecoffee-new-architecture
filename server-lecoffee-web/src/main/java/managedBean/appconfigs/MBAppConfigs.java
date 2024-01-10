@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import abstracts.AbstractMBean;
 import jakarta.annotation.PostConstruct;
@@ -159,6 +160,14 @@ public class MBAppConfigs extends AbstractMBean {
 	public void refreshPage() throws IOException {
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 		ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
+	}
+	
+	public String getSystemVersion() {
+		 FacesContext facesContext = FacesContext.getCurrentInstance(); 
+		 Locale locale = facesContext.getViewRoot().getLocale();
+		 ResourceBundle bundle = ResourceBundle.getBundle("app-config", locale);
+
+		 return bundle.getString("system_version");
 	}
 	
 	// Getters and Setters
