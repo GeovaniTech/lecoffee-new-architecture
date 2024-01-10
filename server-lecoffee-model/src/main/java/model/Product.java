@@ -8,7 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Product extends AbstractObject {
@@ -22,7 +22,7 @@ public class Product extends AbstractObject {
 	private Integer rating;
 	private Date creationDate;
 
-	@OneToOne
+	@ManyToOne
 	private Category category;
 	
 	@Lob

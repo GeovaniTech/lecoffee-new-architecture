@@ -22,6 +22,8 @@
 				border: dashed 1px gray;
 				background-color: var(--background-general-mouse);
 				border-radius: 8px;
+				margin-top: 10px;
+				cursor: pointer;
 			}
 		</style>
 		
@@ -87,47 +89,49 @@
 							style="width: 100% !important;" />
 					</div>
 				</div>
-			
-				<div class="horizontal-left-center">
-					<div class="seach-group" style="width: 100%;">
-						<p:outputLabel for="imageProductSelect" value="#{label.product_image} *"/>
-						<div jsf:id="imageProductSelect"
-							 class="select-image-upload" 
-							 onclick="PF('uploadImage').show(); return false;"
-							 style="display: #{MBProductInfo.product.imageBytes == null ? 'flex' : 'none' }">
-							
-							<p>#{label.click_to_select_an_image}</p>
+
+				<div jsf:id="imageContainer">
+					<div class="horizontal-left-center">
+						<div class="seach-group" style="width: 100%;">
+							<p:outputLabel for="imageProductSelect" value="#{label.product_image} *"/>
+							<div jsf:id="imageProductSelect"
+								 class="select-image-upload" 
+								 onclick="PF('uploadImage').show(); return false;"
+								 style="display: #{MBProductInfo.product.imageBytes == null ? 'flex' : 'none' }">
+								
+								<p>#{label.click_to_select_an_image}</p>
+							</div>
 						</div>
 					</div>
-				</div>
+					
+					<h:graphicImage 
+						id="productImage"
+						rendered="#{MBProductInfo.product.imageBytes != null}"
+						style="width: 200px; height: 100px; border-radius: 10px; cursor: pointer;"
+						onclick="PF('uploadImage').show(); return false;"
+						value="data:image/png;base64,#{MBAppConfigs.getRenderedImage(MBProductInfo.product.imageBytes)}" />
 				
-				<h:graphicImage 
-					id="productImage"
-					rendered="#{MBProductInfo.product.imageBytes != null}"
-					style="width: 200px; height: 100px; border-radius: 10px;"
-					onclick="PF('uploadImage').show(); return false;"
-					value="data:image/png;base64,#{MBAppConfigs.getRenderedImage(MBProductInfo.product.imageBytes)}" />
-			
-				<p:fileUpload
-					id="fileUpload"
-					multiple="false"
-					mode="advanced" 
-					widgetVar="uploadImage"
-					showButtons="false"
-					label="#{label.search}" 
-					cancelLabel="#{label.cancel}"
-					uploadLabel="#{label.upload_files}"
-					auto="true"
-					update="@form, @form:productInfoMessages"
-					listener="#{MBProductInfo.addImage}" 
-					sizeLimit="102400" 
-					allowTypes="/(\.|\/)(jpe?g|png)$/"
-                    invalidSizeMessage="#{label.msg_max_size_allowed}"
-                    invalidFileMessage="#{label.msg_types_allowed}"
-					process="@this"
-					required="true"
-					style="width: 100% !important; display: none;"
-					requiredMessage="#{label.select_image_required}" />
+					<p:fileUpload
+						id="fileUpload"
+						multiple="false"
+						mode="advanced" 
+						widgetVar="uploadImage"
+						showButtons="false"
+						label="#{label.search}" 
+						cancelLabel="#{label.cancel}"
+						uploadLabel="#{label.upload_files}"
+						auto="true"
+						update="@form:productInfoMessages, formProductInfo:imageContainer"
+						listener="#{MBProductInfo.addImage}" 
+						sizeLimit="102400" 
+						allowTypes="/(\.|\/)(jpe?g|png)$/"
+	                    invalidSizeMessage="#{label.msg_max_size_allowed}"
+	                    invalidFileMessage="#{label.msg_types_allowed}"
+						process="@this"
+						required="true"
+						style="width: 100% !important; display: none;"
+						requiredMessage="#{label.select_image_required}" />			
+				</div>
 				
 				<p:toolbar>
 					<f:facet name="left">

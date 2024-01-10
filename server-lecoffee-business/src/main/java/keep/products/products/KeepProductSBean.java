@@ -7,7 +7,9 @@ import abstracts.AbstractKeep;
 import jakarta.ejb.Stateless;
 import jakarta.ejb.TransactionManagement;
 import jakarta.ejb.TransactionManagementType;
+import jakarta.persistence.Query;
 import model.Product;
+import to.TOParameter;
 import to.products.products.TOFilterProduct;
 import to.products.products.TOProduct;
 
@@ -42,18 +44,58 @@ public class KeepProductSBean extends AbstractKeep<Product, TOProduct> implement
 
 	@Override
 	public int getCount(TOFilterProduct filter) {
-		// TODO Auto-generated method stub
-		return 0;
+		StringBuilder sql = new StringBuilder();
+		
+		List<TOParameter> params = new ArrayList<TOParameter>();
+		
+		sql.append(" SELECT COUNT(P.id) ")
+			.append(this.getFromProducts())
+			.append(this.getWhereProducts(filter, params));
+		
+		Query query = this.getEntityManager().createQuery(sql.toString());
+		setParameters(query, params);
+		
+		Number value = (Number) query.getSingleResult();
+		
+		return value.intValue();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<TOProduct> getResults(TOFilterProduct filter) {
-		return new ArrayList<TOProduct>();
+		StringBuilder sql = new StringBuilder();
+		
+		List<TOParameter> params = new ArrayList<TOParameter>();
+		
+		sql.append(" SELECT P ")
+			.append(this.getFromProducts())
+			.append(this.getWhereProducts(filter, params));
+		
+		Query query = this.getEntityManager().createQuery(sql.toString());
+		setParameters(query, params);
+		
+		return this.convertModelResults(query.getResultList());
 	}
 
 	@Override
 	public TOProduct findById(int id) {
 		return this.convertToDTO(this.getEntityManager().find(Product.class, id));
+	}
+	
+	private String getWhereProducts(TOFilterProduct filter, List<TOParameter> params) {
+		StringBuilder sql = new StringBuilder();
+		
+		return sql.toString();
+	}
+	
+	private String getFromProducts() {
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append(" FROM ")
+			.append(Product.class.getSimpleName())
+			.append(" P ");
+		
+		return sql.toString();
 	}
 	
 }

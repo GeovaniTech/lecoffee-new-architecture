@@ -89,6 +89,14 @@
 					<h:outputText value="#{product.name}"/>
 				</p:column>
 				
+				<p:column headerText="#{label.category}">
+					<h:outputText value="#{product.category.name}"/>
+				</p:column>
+				
+				<p:column headerText="#{label.price}">
+					<h:outputText value="#{MBAppConfigs.getBrazilianCurrency(product.price)}"/>
+				</p:column>
+				
 				<p:column headerText="#{label.creation_user}">					
 					<h:outputText value="#{product.creationUser}" />
 				</p:column>

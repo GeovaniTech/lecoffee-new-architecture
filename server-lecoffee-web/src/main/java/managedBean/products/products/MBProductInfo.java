@@ -1,13 +1,16 @@
 package managedBean.products.products;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
+import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 
 import abstracts.AbstractMBean;
 import jakarta.annotation.PostConstruct;
 import jakarta.ejb.EJB;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
 import keep.products.categories.IKeepCategorySBean;
@@ -15,6 +18,7 @@ import keep.products.products.IKeepProductSBean;
 import to.products.categories.TOCategory;
 import to.products.products.TOProduct;
 import utils.FileUtil;
+import utils.MessageUtil;
 
 @Named(MBProductInfo.MANAGED_BEAN_NAME)
 @ViewScoped
@@ -25,7 +29,7 @@ public class MBProductInfo extends AbstractMBean {
 	private TOProduct product;
 	private boolean editing;
 	private List<TOCategory> categories;
-	private int idCategorySelected;
+	private Integer idCategorySelected;
 	
 	@EJB
 	private IKeepProductSBean productSBean;
@@ -39,22 +43,75 @@ public class MBProductInfo extends AbstractMBean {
 		this.setEditing(false);
 		this.setProduct(new TOProduct());
 		this.setCategories(this.getCategorySBean().getResults());
+		this.setIdCategorySelected(null);
+		this.updateForm();
+	}
+	
+	public void changeProduct(TOProduct product) {
+		this.setEditing(true);
+		this.setProduct(product);
+		this.setIdCategorySelected(product.getCategory().getId());
+		this.updateForm();
 	}
 	
 	public void save() {
-		
+		try {
+			if(this.getProduct().getImageBytes() == null) {
+				MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("select_image_required"), FacesMessage.SEVERITY_ERROR);
+				return;
+			}
+			
+			this.getProduct().setCategory(this.getCategorySBean().findById(this.getIdCategorySelected()));
+			this.getProduct().setCreationUser(this.getClientSession().getEmail());
+			this.getProduct().setCreationDate(new Date());
+			
+			this.getProductSBean().save(this.getProduct());
+			showMessageItemSaved(this.getProduct().getName());
+			
+			this.setEditing(true);
+		} catch (Exception e) {
+			showMessageError(e);
+		}
 	}
 	
 	public void change() {
-		
+		try {
+			if(this.getProduct().getImageBytes() == null) {
+				MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("select_image_required"), FacesMessage.SEVERITY_ERROR);
+				return;
+			}
+			
+			this.getProduct().setCategory(this.getCategorySBean().findById(this.getIdCategorySelected()));
+			this.getProduct().setChangeUser(this.getClientSession().getEmail());
+			this.getProduct().setChangeDate(new Date());
+			
+			this.getProductSBean().change(this.getProduct());
+			showMessageItemChanged(this.getProduct().getName());
+		} catch (Exception e) {
+			showMessageError(e);
+		}
 	}
 	
 	public void remove() {
-		
+		try {
+			this.getProductSBean().remove(this.getProduct());
+			
+			showMessageItemRemoved(this.getProduct().getName());
+			
+			this.init();
+		} catch (Exception e) {
+			showMessageError(e);
+		}
 	}
 
 	public void addImage(FileUploadEvent event) throws IOException {		
 		this.getProduct().setImageBytes(FileUtil.getBytesFromPrimefacesFile(event.getFile()));
+		
+		MessageUtil.sendMessage(MessageUtil.getMessageFromProperties("msg_image_added_successfully"), FacesMessage.SEVERITY_INFO);
+	}
+	
+	private void updateForm() {
+		PrimeFaces.current().ajax().update("tabViewProducts:dialogProductInfo:formProductInfo");
 	}
 	
 	// Getters and Setters
@@ -98,11 +155,11 @@ public class MBProductInfo extends AbstractMBean {
 		this.categorySBean = categorySBean;
 	}
 
-	public int getIdCategorySelected() {
+	public Integer getIdCategorySelected() {
 		return idCategorySelected;
 	}
 
-	public void setIdCategorySelected(int idCategorySelected) {
+	public void setIdCategorySelected(Integer idCategorySelected) {
 		this.idCategorySelected = idCategorySelected;
 	}
 	

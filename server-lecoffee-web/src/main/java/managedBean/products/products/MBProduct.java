@@ -33,7 +33,7 @@ public class MBProduct extends AbstractFilterMBean<TOProduct, TOFilterProduct> {
 	}
 	
 	public void initNewProduct() {
-		
+		this.getMBProductInfo().init();
 	}
 	
 	@Override
@@ -53,7 +53,11 @@ public class MBProduct extends AbstractFilterMBean<TOProduct, TOFilterProduct> {
 	
 	@Override
 	public void onRowSelect(SelectEvent<TOProduct> event) {
-		// TODO Auto-generated method stub
+		this.getMBProductInfo().changeProduct(event.getObject());
+	}
+	
+	public MBProductInfo getMBProductInfo() {
+		return this.getMBean(MBProductInfo.MANAGED_BEAN_NAME);
 	}
 
 	// Getters and Setters
