@@ -2,34 +2,23 @@ package to.products.products;
 
 import abstracts.AbstractTOFilter;
 import to.TOInputFilter;
-import to.products.categories.TOCategory;
+import to.TOInputNumberFilter;
 
 public class TOFilterProduct extends AbstractTOFilter {
 	private static final long serialVersionUID = 2973517230206716025L;
 	
 	private TOInputFilter name;
 	private TOInputFilter description;
-	private Double price;
-	private TOCategory category;
+	private TOInputNumberFilter price;
+	private Integer idCategory;
 	private Integer rating;
 	
 	public TOFilterProduct() {
 		this.setName(new TOInputFilter());
 		this.setDescription(new TOInputFilter());
+		this.setPrice(new TOInputNumberFilter());
 	}
 	
-	public Double getPrice() {
-		return price;
-	}
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-	public TOCategory getCategory() {
-		return category;
-	}
-	public void setCategory(TOCategory category) {
-		this.category = category;
-	}
 	public Integer getRating() {
 		return rating;
 	}
@@ -47,6 +36,18 @@ public class TOFilterProduct extends AbstractTOFilter {
 	}
 	public void setDescription(TOInputFilter description) {
 		this.description = description;
+	}
+	public Integer getIdCategory() {
+		return idCategory;
+	}
+	public void setIdCategory(Integer idCategory) {
+		this.idCategory = idCategory;
+	}
+	public TOInputNumberFilter getPrice() {
+		return price;
+	}
+	public void setPrice(TOInputNumberFilter price) {
+		this.price = price;
 	}
 
 }

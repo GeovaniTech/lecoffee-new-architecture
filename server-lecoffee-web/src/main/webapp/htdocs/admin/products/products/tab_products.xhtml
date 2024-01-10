@@ -17,6 +17,8 @@
 				action="#{MBProduct.searchResults}"
 				update="formProducts:tableProducts" />
 		
+			<p:defaultCommand target="formProducts:btnSearchResults" />
+		
 			<div class="top-buttons mg-b-10">						
 				<p:commandButton 
 					id="btnInitNewProduct"
@@ -41,8 +43,35 @@
 					
 					<div class="search-group">
 						<components:inputFilter 
-							label="#{label.icon}"
+							label="#{label.description}"
 							toInputFilter="#{MBProduct.filter.description}" />
+					</div>
+				</div>
+				
+				<div class="horizontal-left-center">
+					<div class="search-group">
+						<components:numberRange
+							label="#{label.price}"
+							toInputNumberFilter="#{MBProduct.filter.price}" />
+					</div>
+					
+					<div class="search-group">
+						<p:outputLabel for="category" value="#{label.category}" />
+						<p:selectOneMenu
+							id="category"
+							value="#{MBProduct.filter.idCategory}"
+							style="width: 200px;">
+
+							<f:selectItem
+								itemLabel="#{label.all}"
+								itemValue="#{null}" />
+
+							<f:selectItems 
+								var="category"
+								value="#{MBProduct.categories}"
+								itemLabel="#{category.name}"
+								itemValue="#{category.id}" />
+						</p:selectOneMenu>
 					</div>
 				</div>
 				
@@ -53,7 +82,7 @@
 							icon="pi pi-search"
 							value="#{label.search}"
 							update="@form:tableProducts"
-							onclick="PF('tableProductsVW').filt0er();"
+							onclick="PF('tableProductsVW').filter();"
 							styleClass="mg-r-5" />
 	
 						<p:commandButton 
@@ -63,8 +92,6 @@
 							update="@form" />					
 					</f:facet>
 				</p:toolbar>
-				
-				<p:defaultCommand target="btnSearchResults" />
 			</p:overlayPanel>
 			
 			<p:dataTable

@@ -9,9 +9,11 @@ import jakarta.ejb.TransactionManagement;
 import jakarta.ejb.TransactionManagementType;
 import jakarta.persistence.Query;
 import model.Product;
+import query.SimpleWhere;
 import to.TOParameter;
 import to.products.products.TOFilterProduct;
 import to.products.products.TOProduct;
+import utils.StringUtil;
 
 @Stateless
 @TransactionManagement(TransactionManagementType.CONTAINER)
@@ -84,6 +86,17 @@ public class KeepProductSBean extends AbstractKeep<Product, TOProduct> implement
 	
 	private String getWhereProducts(TOFilterProduct filter, List<TOParameter> params) {
 		StringBuilder sql = new StringBuilder();
+		
+		sql.append(" WHERE 1 = 1 ");
+		
+		sql.append(SimpleWhere.queryFilter("P.name", filter.getName()));
+		sql.append(SimpleWhere.queryFilter("P.description", filter.getDescription()));
+		sql.append(SimpleWhere.queryFilterNumberRange("P.price", filter.getPrice()));
+		
+		if(filter.getIdCategory() != null) {
+			sql.append(" AND P.category.id = :idCategory ");
+			params.add(new TOParameter("idCategory", filter.getIdCategory()));
+		}
 		
 		return sql.toString();
 	}
