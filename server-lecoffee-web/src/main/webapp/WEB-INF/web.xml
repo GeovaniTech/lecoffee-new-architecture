@@ -4,6 +4,11 @@
 	xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_ID" version="5.0">
 	<display-name>server-lecoffee-web</display-name>
+	
+	<welcome-file-list>
+		<welcome-file>/htdocs/home/login.xhtml</welcome-file>
+	</welcome-file-list>
+	
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
